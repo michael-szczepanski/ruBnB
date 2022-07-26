@@ -1,11 +1,18 @@
-# MakersBnB Project Seed 
+# MakersBnB Project Seed
 
-<!-- BEGIN GENERATED SECTION DO NOT EDIT -->
+This repo contains the seed codebase for the MakersBnB project in Ruby (using Sinatra and RSpec).
 
----
+Someone in your team should fork this seed repo to their Github account. Everyone in the team should then clone this fork to their local machine to work on it.
 
-**How was this resource?**  
-[😫](https://airtable.com/shrUJ3t7KLMqVRFKR?prefill_Repository=makersacademy/makersbnb-ruby-seed&prefill_File=README.md&prefill_Sentiment=😫) [😕](https://airtable.com/shrUJ3t7KLMqVRFKR?prefill_Repository=makersacademy/makersbnb-ruby-seed&prefill_File=README.md&prefill_Sentiment=😕) [😐](https://airtable.com/shrUJ3t7KLMqVRFKR?prefill_Repository=makersacademy/makersbnb-ruby-seed&prefill_File=README.md&prefill_Sentiment=😐) [🙂](https://airtable.com/shrUJ3t7KLMqVRFKR?prefill_Repository=makersacademy/makersbnb-ruby-seed&prefill_File=README.md&prefill_Sentiment=🙂) [😀](https://airtable.com/shrUJ3t7KLMqVRFKR?prefill_Repository=makersacademy/makersbnb-ruby-seed&prefill_File=README.md&prefill_Sentiment=😀)  
-Click an emoji to tell us.
+## Setup
 
-<!-- END GENERATED SECTION DO NOT EDIT -->
+```bash
+# Install gems
+bundle install
+
+# Run the tests
+rspec
+
+# Run the server (better to do this in a separate terminal).
+rackup
+```
