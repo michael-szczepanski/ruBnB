@@ -19,10 +19,10 @@ describe Application do
 
 
   context 'GET /' do
-    it 'should get the homepage' do
+    it 'should redirect to /spaces' do
       response = get('/')
 
-      expect(response.status).to eq(200)
+      expect(response.status).to eq(302)
     end
   end
   

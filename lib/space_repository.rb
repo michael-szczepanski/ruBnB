@@ -28,8 +28,7 @@ class SpaceRepository
     sql = "UPDATE spaces SET availability = 'false' WHERE id = $1"
     sql_params = [id]
 
-    DatabaseConnection.exec_params(sql,sql_params)
-
+    DatabaseConnection.exec_params(sql, sql_params)
   end
 
   def find_by_id(id)
@@ -48,6 +47,5 @@ class SpaceRepository
     space.user_id = entry['user_id'].to_i
 
     return space
-
   end
 end
