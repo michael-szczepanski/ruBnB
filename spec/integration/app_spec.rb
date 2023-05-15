@@ -25,8 +25,8 @@ describe Application do
       expect(response.status).to eq(200)
     end
   end
-
-  context "GET /spaces" do
+  
+   context "GET /spaces" do
     it "displays list of all spaces" do
       response = get("/spaces")
 
@@ -38,6 +38,34 @@ describe Application do
       expect(response.body).to include("This is my less-lovely shed")
       expect(response.body).to include("Jill's converted well")
       expect(response.body).to include("Feel like a frog looking at the sky")
+    end
+  end
+
+  context 'GET /spaces/new' do
+    it 'should return status 200 and form to create new space' do
+      response = get('/spaces/new')
+
+      expect(response.status).to eq 200
+      expect(response.body).to include('Create your space!')
+      expect(response.body).to include('action="/spaces/new" method="POST"')
+      expect(response.body).to include('type="radio" id="available" name="availability" value="true"')
+    end
+  end
+
+  context 'POST /spaces/new' do
+    it 'creates a new space' do
+
+      response = post(
+        '/spaces/new',
+        name: 'treehouse',
+        description: 'a lovely treehouse',
+        price_per_night: 50.0,
+        availability: true,
+        user_id: 1
+      )
+
+      expect(response.status).to eq 200
+      expect(response.body).to include('space added')
     end
   end
 end
