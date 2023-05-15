@@ -25,4 +25,28 @@ describe Application do
       expect(response.status).to eq(200)
     end
   end
+
+  context 'GET /spaces/:id' do
+    it 'retrieves the individual space page' do
+      response = get('/spaces/1')
+      expect(response.status).to eq 200
+      expect(response.body).to include 'This is my lovely house'
+
+      response = get('/spaces/2')
+      expect(response.status).to eq 200
+      expect(response.body).to include 'This is my less-lovely shed'
+
+    end
+  end
+
+  context 'POST /book-a-space' do
+    it 'sends correct parameters' do
+      response = post('/book-a-space', {id: 1})
+      expect(response.status).to eq 302
+
+      response = get('/spaces/1')
+      expect(response.body).to include 'Availability: false'
+    end
+  end
+  
 end
