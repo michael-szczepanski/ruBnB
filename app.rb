@@ -14,7 +14,7 @@ class Application < Sinatra::Base
   end
 
   get '/' do
-    return erb(:index)
+    redirect "/spaces"
   end
 
   get '/spaces' do
