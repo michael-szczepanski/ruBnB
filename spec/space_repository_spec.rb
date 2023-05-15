@@ -28,8 +28,20 @@ RSpec.describe SpaceRepository do
       response = repo.create(new_space)
 
       expect(response[0]['id']).to eq "4"
-
     end
   end
+  
+  context 'The All Method' do
+    it 'returns all the spaces' do
+      repo = SpaceRepository.new
+      spaces = repo.all
 
+      expect(spaces.length).to eq 3
+      expect(spaces.first.name).to eq "Jack's House"
+      expect(spaces.last.name).to eq "Jill's converted well"
+      expect(spaces.first.description).to eq "This is my lovely house"
+      expect(spaces.first.price_per_night).to eq '10.5'
+      expect(spaces.first.availability).to eq "true"
+    end
+  end
 end

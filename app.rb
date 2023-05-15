@@ -11,10 +11,18 @@ end
 class Application < Sinatra::Base
   configure :development do
     register Sinatra::Reloader
+    also_reload 'lib/space_repository'
   end
 
   get '/' do
-    return erb(:index)
+    redirect "/spaces"
+  end
+
+  get '/spaces' do
+    repo = SpaceRepository.new
+    @spaces = repo.all
+
+    return erb(:spaces)
   end
 
   get '/spaces/new' do

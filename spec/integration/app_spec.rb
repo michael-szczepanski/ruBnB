@@ -25,6 +25,21 @@ describe Application do
       expect(response.status).to eq(200)
     end
   end
+  
+   context "GET /spaces" do
+    it "displays list of all spaces" do
+      response = get("/spaces")
+
+      expect(response.status).to eq(200)
+      expect(response.body).to include("<title>Spaces | ruBnB</title>")
+      expect(response.body).to include("Jack's House")
+      expect(response.body).to include("This is my lovely house")
+      expect(response.body).to include("Jack's Shed")
+      expect(response.body).to include("This is my less-lovely shed")
+      expect(response.body).to include("Jill's converted well")
+      expect(response.body).to include("Feel like a frog looking at the sky")
+    end
+  end
 
   context 'GET /spaces/new' do
     it 'should return status 200 and form to create new space' do
