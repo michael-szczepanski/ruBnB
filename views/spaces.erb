@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Spaces | ruBnB</title>
+  </head>
+  <body>
+    <h1>ruBnB</h1>
+    <h2>Here are all the spaces:</h2>
+    <% @spaces.each do |space| %>
+      <div>
+        <h3><%= space.name %> </h3>
+        About this space: <%= space.description %> <br>
+        Price per night: £<%= space.price_per_night %> <br>
+        Currently available? <%= space.availability == "true" ? "Yes" : "No" %> 
+      </div>
+    <% end %>
+  </body>
+</html>
