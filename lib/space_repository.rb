@@ -8,12 +8,8 @@ class SpaceRepository
     spaces_array = []
     result.each do |row|
       space = Space.new
-      space.id = row['id']
-      space.name = row['name']
-      space.description = row['description']
-      space.price_per_night = row['price_per_night']
-      space.availability = row['availability']
-      space.user_id = row['user_id']
+      space.id, space.name, space.description, space.price_per_night, space.availability, space.user_id = 
+        row['id'], row['name'], row['description'], row['price_per_night'], row['availability'], row['user_id']
       spaces_array << space
     end
     return spaces_array
