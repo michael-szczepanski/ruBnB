@@ -1,6 +1,3 @@
--- deleting previous table structure
-DROP TABLE users, spaces;
-
 CREATE TABLE users (
   id SERIAL PRIMARY KEY,
   name text,

@@ -4,35 +4,36 @@ require_relative 'database_connection'
 class SpaceRepository
 
   def all
-    sql = 'SELECT id, name, description, price_per_night, availability, user_id FROM spaces;'
+    sql = 'SELECT id, name, description, price_per_night, available_from, available_to, user_id FROM spaces;'
     result = DatabaseConnection.exec_params(sql, [])
     spaces_array = []
     result.each do |row|
       space = Space.new
-      space.id, space.name, space.description, space.price_per_night, space.availability, space.user_id = 
-        row['id'], row['name'], row['description'], row['price_per_night'], row['availability'], row['user_id']
+      space.id, space.name, space.description, space.price_per_night, space.available_from, space.available_to, space.user_id = 
+        row['id'], row['name'], row['description'], row['price_per_night'], row['available_from'], row['available_to'], row['user_id']
       spaces_array << space
     end
     return spaces_array
   end
 
   def create(space)
-    sql = 'INSERT INTO spaces (name, description, price_per_night, availability, user_id) VALUES($1, $2, $3, $4, $5) RETURNING id;'
+    sql = 'INSERT INTO spaces (name, description, price_per_night, available_from, available_to, user_id) VALUES($1, $2, $3, $4, $5, $6) RETURNING id;'
 
-    params = [space.name, space.description, space.price_per_night, space.availability, space.user_id]
+    params = [space.name, space.description, space.price_per_night, space.available_from, space.available_to, space.user_id]
 
     DatabaseConnection.exec_params(sql, params)
   end
 
+  # remove this?
   def book(id)
-    sql = "UPDATE spaces SET availability = 'false' WHERE id = $1"
-    sql_params = [id]
+    # sql = "UPDATE spaces SET availability = 'false' WHERE id = $1"
+    # sql_params = [id]
 
-    DatabaseConnection.exec_params(sql, sql_params)
+    # DatabaseConnection.exec_params(sql, sql_params)
   end
 
   def find_by_id(id)
-    sql = 'SELECT id, name, description, price_per_night, availability, user_id
+    sql = 'SELECT id, name, description, price_per_night, available_from, available_to, user_id
     FROM spaces WHERE id = $1'
     sql_params = [id]
 
@@ -43,9 +44,9 @@ class SpaceRepository
     space.name = entry['name']
     space.description = entry['description']
     space.price_per_night = entry['price_per_night'].to_f
-    space.availability = entry['availability']
+    space.available_from = entry['available_from']
+    space.available_to = entry['available_to']
     space.user_id = entry['user_id'].to_i
-
     return space
   end
 end
