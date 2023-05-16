@@ -52,6 +52,17 @@ describe Application do
     end
   end
 
+  context 'GET /signup' do
+    it ' Should return status 200 and display sign up form' do
+      response = get('/signup')
+
+      expect(response.status).to eq 200
+      expect(response.body).to include 'form'
+      expect(response.body).to include 'POST'
+      expect(response.body).to include '/signup'
+    end
+  end
+
   context 'POST /spaces/new' do
     it 'creates a new space' do
 

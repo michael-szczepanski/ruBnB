@@ -25,6 +25,10 @@ class Application < Sinatra::Base
     return erb(:spaces)
   end
 
+  get '/signup' do
+    return erb(:signup)
+  end
+  
   get '/spaces/new' do
     return erb(:spaces_new)
   end
