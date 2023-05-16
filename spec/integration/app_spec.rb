@@ -65,9 +65,15 @@ describe Application do
 
   context 'POST /signup' do
     it "Should return status 200 and add a new user to the database" do
-      response = post('/signup'
-      )
+      response = post('/signup', { 
+        name: "Mike", 
+        username: "mike",
+        email: "mike@mike.com",
+        password: "verysecurepassword" })
+      expect(response.status).to eq 302
 
+      response = get('/spaces')
+      expect(response.body).to include "Mike"
     end
   end
 

@@ -1,8 +1,11 @@
 require 'sinatra/base'
 require 'sinatra/reloader'
+require 'bcrypt'
 require_relative 'lib/database_connection'
 require_relative 'lib/space_repository'
 require_relative 'lib/space'
+require_relative 'lib/user_repository'
+require_relative 'lib/user'
 
 if ENV['ENV'] != 'test'
   DatabaseConnection.connect('rubnb')
@@ -29,6 +32,20 @@ class Application < Sinatra::Base
 
   get '/signup' do
     return erb(:signup)
+  end
+
+  post '/signup' do
+    repo = UserRepository.new
+    user = User.new
+    user.id = params[:id].to_i
+    user.name = params[:name]
+    user.username = params[:username]
+    user.email = params[:email]
+    user.password = params[:password]
+    repo.create(user)
+    session[:user] = user
+
+    redirect '/'
   end
 
   get '/spaces/new' do

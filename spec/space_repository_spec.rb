@@ -3,14 +3,8 @@ require 'space'
 
 RSpec.describe SpaceRepository do
 
-  def reset_spaces_table
-    seed_sql = File.read('spec/seeds_rubnb.sql')
-    connection = PG.connect({ host: '127.0.0.1', dbname: 'rubnb_test' })
-    connection.exec(seed_sql)
-  end
-
   before(:each) do
-    reset_spaces_table
+    reset_tables
   end
 
   context '#create(space)' do
