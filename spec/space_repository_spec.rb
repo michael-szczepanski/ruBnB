@@ -28,6 +28,12 @@ RSpec.describe SpaceRepository do
       response = repo.create(new_space)
 
       expect(response[0]['id']).to eq "4"
+      last_space = repo.all.last
+      expect(last_space.name).to eq 'The Moon'
+      expect(last_space.description).to eq 'made of cheese'
+      expect(last_space.price_per_night).to eq "2.99"
+      expect(last_space.availability).to eq "true"
+      expect(last_space.user_id).to eq '2'
     end
   end
   

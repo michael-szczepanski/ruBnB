@@ -43,7 +43,7 @@ class Application < Sinatra::Base
     space.user_id = 1
 
     repo.create(space)
-    return "space added"
+    redirect('/spaces')
   end
 
   get '/spaces/:id' do

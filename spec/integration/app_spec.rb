@@ -64,8 +64,11 @@ describe Application do
         user_id: 1
       )
 
-      expect(response.status).to eq 200
-      expect(response.body).to include('space added')
+      expect(response.status).to eq 302
+      
+      response = get('/spaces')
+      expect(response.body).to include('treehouse')
+      expect(response.body).to include('a lovely treehouse')
     end
   end
   
