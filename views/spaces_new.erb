@@ -1,41 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
-  <body>
+<% content_for :title do %>
+  List a new space | ruBnB
+  <% end %>
+
+    <h1>Create your space!</h1>
     <div>
-      <h1>Create your space!</h1>
-      <div>
-        <form action="/spaces/new" method="POST">
-          <div>
-            <label for="name">Name</label>
-            <input id="name" type="text" placeholder="Enter the name of your space." name="name" />
-          </div>
+      <form action="/spaces/new" method="POST">
+        <div>
+          <label for="name">Name</label>
+          <input id="name" type="text" placeholder="Enter the name of your space." name="name" />
+        </div>
 
-          <div>
-            <label for="decription">Description</label>
-            <input id="description" type="text" placeholder="Enter the description." name="description" />
-          </div>
+        <div>
+          <label for="decription">Description</label>
+          <input id="description" type="text" placeholder="Enter the description." name="description" />
+        </div>
 
-          <div>
-            <label for="price_per_night">Price per night £</label>
-            <input id="price_per_night" type="number" placeholder="Enter the price per night." name="price_per_night" step="0.01" />
-          </div>
+        <div>
+          <label for="price_per_night">Price per night £</label>
+          <input id="price_per_night" type="number" placeholder="Enter the price per night." name="price_per_night"
+            step="0.01" />
+        </div>
 
-          <fieldset>
-            <legend>Select the availability</legend>
-            <label for="available">Available</label>
-            <input type="radio" id="available" name="availability" value="true" />
-            <label for="unavailable">Unavailable</label>
-            <input type="radio" id="unavailable" name="availability" value="false" />
-          </fieldset>
-          <button type="submit">Submit</button>
-        </form>
-      </div>
+        <fieldset>
+          <legend>Select the availability</legend>
+          <label for="available">Available</label>
+          <input type="radio" id="available" name="availability" value="true" />
+          <label for="unavailable">Unavailable</label>
+          <input type="radio" id="unavailable" name="availability" value="false" />
+        </fieldset>
+        <button type="submit">Submit</button>
+      </form>
     </div>
-  </body>
-</html>

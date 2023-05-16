@@ -31,7 +31,7 @@ describe Application do
       response = get("/spaces")
 
       expect(response.status).to eq(200)
-      expect(response.body).to include("<title>Spaces | ruBnB</title>")
+      expect(response.body).to include("Spaces | ruBnB")
       expect(response.body).to include("Jack's House")
       expect(response.body).to include("This is my lovely house")
       expect(response.body).to include("Jack's Shed")
