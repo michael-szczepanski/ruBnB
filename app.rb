@@ -1,5 +1,7 @@
 require 'sinatra/base'
 require 'sinatra/reloader'
+require 'sinatra/content_for'
+
 require_relative 'lib/database_connection'
 require_relative 'lib/space_repository'
 require_relative 'lib/space'
@@ -9,6 +11,8 @@ if ENV['ENV'] != 'test'
 end
 
 class Application < Sinatra::Base
+  helpers Sinatra::ContentFor
+
   configure :development do
     register Sinatra::Reloader
     also_reload 'lib/space_repository'
@@ -39,7 +43,7 @@ class Application < Sinatra::Base
     space.user_id = 1
 
     repo.create(space)
-    return "space added"
+    redirect('/spaces')
   end
 
   get '/spaces/:id' do
