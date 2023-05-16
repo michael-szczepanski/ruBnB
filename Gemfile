@@ -13,3 +13,7 @@ gem "rack-test", "~> 1.1"
 gem "rspec", "~> 3.11"
 
 gem "rainbow", "~> 3.1"
+
+gem "rack-session", "~> 1.0"
+
+gem "bcrypt", "~> 3.1"

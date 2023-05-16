@@ -9,6 +9,8 @@ if ENV['ENV'] != 'test'
 end
 
 class Application < Sinatra::Base
+  enable :sessions
+  
   configure :development do
     register Sinatra::Reloader
     also_reload 'lib/space_repository'
@@ -28,7 +30,7 @@ class Application < Sinatra::Base
   get '/signup' do
     return erb(:signup)
   end
-  
+
   get '/spaces/new' do
     return erb(:spaces_new)
   end
