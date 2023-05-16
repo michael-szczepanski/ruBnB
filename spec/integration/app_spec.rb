@@ -130,4 +130,16 @@ describe Application do
       expect(response.body).to include 'Availability: false'
     end
   end
+
+  context 'POST /logout' do
+    it 'logs a user out of website' do
+      post('/login', {
+        email: 'jack@email.com',
+        password: 'pwtest1'
+      })
+      post('/logout')
+      response = get('/spaces')
+      expect(response.body).not_to include 'Welcome Jack!'
+    end
+  end
 end

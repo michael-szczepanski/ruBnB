@@ -67,6 +67,11 @@ class Application < Sinatra::Base
     redirect '/'
   end
 
+  post '/logout' do
+    session[:user] = nil
+    redirect '/'
+  end
+
   get '/spaces/new' do
     return erb(:spaces_new)
   end

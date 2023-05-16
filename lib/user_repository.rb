@@ -17,11 +17,11 @@ class UserRepository
     params = [email]
     entry = DatabaseConnection.exec_params(query, params).to_a
     return nil if entry.empty?
-    stored_password = BCrypt::Password.new(entry["password"])
+    stored_password = BCrypt::Password.new(entry.first["password"])
     return nil unless stored_password == password
     user = User.new
-    user.id, user.name =
-      entry["id"].to_i, entry["name"]
+    user.id = entry.first["id"].to_i
+    user.name = entry.first["name"]
     return user
   end
 
