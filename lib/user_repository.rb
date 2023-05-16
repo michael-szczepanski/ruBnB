@@ -15,7 +15,7 @@ class UserRepository
   def log_in(email, password)
     query = 'SELECT id, name, username, email, password FROM users WHERE email = $1;'
     params = [email]
-    entry = DatabaseConnection.exec_params(query, params).first
+    entry = DatabaseConnection.exec_params(query, params).to_a
     return nil if entry.empty?
     stored_password = BCrypt::Password.new(entry["password"])
     return nil unless stored_password == password
@@ -23,5 +23,19 @@ class UserRepository
     user.id, user.name =
       entry["id"].to_i, entry["name"]
     return user
+  end
+
+  def is_username_unique?(username)
+    query = 'SELECT id FROM users WHERE username = $1;'
+    params = [username]
+    entry = DatabaseConnection.exec_params(query, params).to_a
+    return entry.empty?
+  end
+
+  def is_email_unique?(email)
+    query = 'SELECT id FROM users WHERE email = $1;'
+    params = [email]
+    entry = DatabaseConnection.exec_params(query, params).to_a
+    return entry.empty?
   end
 end

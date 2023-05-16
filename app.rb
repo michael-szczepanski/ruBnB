@@ -1,5 +1,6 @@
 require 'sinatra/base'
 require 'sinatra/reloader'
+require 'sinatra/flash'
 require 'bcrypt'
 require_relative 'lib/database_connection'
 require_relative 'lib/space_repository'
@@ -16,7 +17,9 @@ class Application < Sinatra::Base
   
   configure :development do
     register Sinatra::Reloader
+    register Sinatra::Flash
     also_reload 'lib/space_repository'
+    also_reload 'lib/user_repository'
   end
 
   get '/' do
@@ -37,15 +40,22 @@ class Application < Sinatra::Base
   post '/signup' do
     repo = UserRepository.new
     user = User.new
-    user.id = params[:id].to_i
-    user.name = params[:name]
-    user.username = params[:username]
-    user.email = params[:email]
-    user.password = params[:password]
-    repo.create(user)
-    session[:user] = user
-
-    redirect '/'
+    username_valid = repo.is_username_unique?(params[:username])
+    email_valid = repo.is_email_unique?(params[:email])
+    if username_valid && email_valid
+      user.id = params[:id].to_i
+      user.name = params[:name]
+      user.username = params[:username]
+      user.email = params[:email]
+      user.password = params[:password]
+      repo.create(user)
+      session[:user] = user
+      redirect '/'
+    else
+      flash[:username] = "Username already in use" unless username_valid
+      flash[:email] = "Email alread in use" unless email_valid
+      redirect '/signup'
+    end
   end
 
   post '/login' do
@@ -53,6 +63,7 @@ class Application < Sinatra::Base
     email = params[:email]
     password = params[:password]
     session[:user] = repo.log_in(email, password)
+    flash[:error] = "email/password incorrect" if session[:user] == nil
     redirect '/'
   end
 

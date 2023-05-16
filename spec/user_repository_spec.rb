@@ -26,4 +26,18 @@ RSpec.describe UserRepository do
       expect(user.id).to eq 1
     end
   end
+
+  context 'READ' do
+    it 'rejects duplicate usernames' do
+      repo = UserRepository.new
+      expect(repo.is_username_unique?('skates')).to eq false
+      expect(repo.is_username_unique?('sup')).to eq true
+    end
+
+    it 'rejects duplicate emails' do
+      repo = UserRepository.new
+      expect(repo.is_email_unique?('jack@email.com')).to eq false
+      expect(repo.is_email_unique?('sup')).to eq true
+    end
+  end
 end

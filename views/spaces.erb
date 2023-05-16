@@ -6,6 +6,12 @@
   <body>
     <h1>ruBnB</h1>
     <% if session[:user] == nil %>
+      <% flash.keys.each do |type| %>
+        <div data-alert class="flash <%= type %> alert-box radius">
+          <%= flash[type] %>
+          <a href="#" class="close">&times;</a>
+        </div>
+      <% end %>
       <form method="POST" action="/login">
       <div>
       <label for="email">Email</label>
