@@ -6,7 +6,21 @@
   <body>
     <h1>ruBnB</h1>
     <% if session[:user] == nil %>
-      <div><h3>Nobody's logged in</h3></div>
+      <form method="POST" action="/login">
+      <div>
+      <label for="email">Email</label>
+      <input type="text" name="email" placeholder="eg: jack@gmail.com">
+      </div>
+
+      <div>
+      <label for="password">Password</label>
+      <input type="password" name="password" placeholder="eg supersecret12321">
+      </div>
+
+      <div>
+      <button type="submit">Login Now!</button>
+      </div>
+      </form>
     <% else %>
       <div><h3>Welcome <%= session[:user].name %>!</h3></div>
     <% end %>

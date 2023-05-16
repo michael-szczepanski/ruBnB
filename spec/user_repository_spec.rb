@@ -16,4 +16,14 @@ RSpec.describe UserRepository do
       expect(entry['email']).to eq user.email
     end
   end
+
+  context '#log_in' do
+    it 'should return a user object given correct credentials' do
+      repo = UserRepository.new
+      user = repo.log_in('jack@email.com', 'pwtest1')
+
+      expect(user.name).to eq 'Jack'
+      expect(user.id).to eq 1
+    end
+  end
 end

@@ -73,7 +73,21 @@ describe Application do
       expect(response.status).to eq 302
 
       response = get('/spaces')
-      expect(response.body).to include "Mike"
+      expect(response.body).to include "Welcome Mike!"
+    end
+  end
+
+  context 'POST /login' do
+    it 'Should allow login with valid credentials' do
+      response = post('/login', {
+        email: 'jack@email.com',
+        password: 'pwtest1'
+      })
+
+      expect(response.status).to eq 302
+
+      response = get('/spaces')
+      expect(response.body).to include "Welcome Jack!"
     end
   end
 

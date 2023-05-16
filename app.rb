@@ -48,6 +48,14 @@ class Application < Sinatra::Base
     redirect '/'
   end
 
+  post '/login' do
+    repo = UserRepository.new
+    email = params[:email]
+    password = params[:password]
+    session[:user] = repo.log_in(email, password)
+    redirect '/'
+  end
+
   get '/spaces/new' do
     return erb(:spaces_new)
   end
