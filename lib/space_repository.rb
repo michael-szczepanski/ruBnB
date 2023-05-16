@@ -8,10 +8,7 @@ class SpaceRepository
     result = DatabaseConnection.exec_params(sql, [])
     spaces_array = []
     result.each do |row|
-      space = Space.new
-      space.id, space.name, space.description, space.price_per_night, space.availability, space.user_id = 
-        row['id'], row['name'], row['description'], row['price_per_night'], row['availability'], row['user_id']
-      spaces_array << space
+      spaces_array << get_space(row)
     end
     return spaces_array
   end
@@ -38,6 +35,12 @@ class SpaceRepository
 
     entry = DatabaseConnection.exec_params(sql,sql_params)[0]
 
+    get_space(entry)
+  end
+
+  private
+
+  def get_space(entry)
     space = Space.new
     space.id = entry['id'].to_i
     space.name = entry['name']

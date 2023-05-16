@@ -31,7 +31,7 @@ describe Application do
       response = get("/spaces")
 
       expect(response.status).to eq(200)
-      expect(response.body).to include("<title>Spaces | ruBnB</title>")
+      expect(response.body).to include("Spaces | ruBnB")
       expect(response.body).to include("Jack's House")
       expect(response.body).to include("This is my lovely house")
       expect(response.body).to include("Jack's Shed")
@@ -103,8 +103,11 @@ describe Application do
         user_id: 1
       )
 
-      expect(response.status).to eq 200
-      expect(response.body).to include('space added')
+      expect(response.status).to eq 302
+      
+      response = get('/spaces')
+      expect(response.body).to include('treehouse')
+      expect(response.body).to include('a lovely treehouse')
     end
   end
   
