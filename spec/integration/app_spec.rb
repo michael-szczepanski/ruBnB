@@ -181,4 +181,44 @@ describe Application do
       expect(response.body).to include 'Pending' # booking.request_status
     end
   end
+
+  context 'POST /confirm' do
+    it 'changes booking request_status to confirmed' do
+      # log Jack in
+      post('/login', {
+        email: 'jack@email.com',
+        password: 'pwtest1'
+      })
+      
+      # send confirm to all three requests for Jack's spaces
+      post('/confirm', {id: 1})
+      post('/confirm', {id: 2})
+      post('/confirm', {id: 3})
+      
+      response = get('/bookings')
+
+      # check that none of them are now pending
+      expect(response.body).not_to include 'Pending'
+    end
+  end
+
+  context 'POST /deny' do
+    it 'changes booking request_status to denied' do
+       # log Jack in
+       post('/login', {
+        email: 'jack@email.com',
+        password: 'pwtest1'
+      })
+      
+      # send deny to all three requests for Jack's spaces
+      post('/deny', {id: 1})
+      post('/deny', {id: 2})
+      post('/deny', {id: 3})
+      
+      response = get('/bookings')
+
+      # check that none of them are now pending
+      expect(response.body).not_to include 'Pending'
+    end
+  end
 end

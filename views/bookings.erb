@@ -15,3 +15,16 @@
   <% end %>
 
 </div>
+
+<div>
+
+  <h3>Requests for my Spaces</h3>
+  <% for booking in @space_bookings do %>
+    <div style="padding:10px">
+      <span style="font-weight:bold"><%= @space_repo.find_by_id(booking.space_id).name %></span><br>
+      Booking date: <%= booking.date.strftime('%d %B %Y')%><br>
+      Status: <%= booking.request_status.capitalize %>
+    </div>
+  <% end %>
+
+</div>
