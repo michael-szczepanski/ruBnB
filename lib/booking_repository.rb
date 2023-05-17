@@ -18,6 +18,18 @@ class BookingRepository
     return extract_bookings(result)
   end
 
+  def confirm(booking_id)
+    query = "UPDATE bookings SET request_status = 'confirmed' WHERE id = $1;"
+    params = [booking_id]
+    DatabaseConnection.exec_params(query, params)
+  end
+
+  def deny(booking_id)
+    query = "UPDATE bookings SET request_status = 'denied' WHERE id = $1;"
+    params = [booking_id]
+    DatabaseConnection.exec_params(query, params)
+  end
+
   private
 
   def extract_bookings(entries)

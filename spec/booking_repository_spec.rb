@@ -33,5 +33,21 @@ RSpec.describe BookingRepository do
       expect(entries.last.space_id).to eq 2
     end
   end
+
+  context "UPDATE" do
+    it '#confirm sets request_status to confirmed' do
+      repo = BookingRepository.new
+      repo.confirm(1)
+      entries = repo.find_for_user(1)
+      expect(entries.last.request_status).to eq "confirmed"
+    end
+
+    it '#deny sets request_status to denied' do
+      repo = BookingRepository.new
+      repo.deny(1)
+      entries = repo.find_for_user(1)
+      expect(entries.last.request_status).to eq "denied"
+    end
+  end
 end
 

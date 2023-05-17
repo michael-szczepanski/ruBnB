@@ -24,6 +24,16 @@
       <span style="font-weight:bold"><%= @space_repo.find_by_id(booking.space_id).name %></span><br>
       Booking date: <%= booking.date.strftime('%d %B %Y')%><br>
       Status: <%= booking.request_status.capitalize %>
+      <% if booking.request_status == 'pending' %>
+      <form action="/confirm" method="POST">
+        <input type='hidden' name='id' value=<%= booking.id %>>
+        <input type='submit' value='Confirm'>
+      </form>
+        <form action="/deny" method="POST">
+        <input type='hidden' name='id' value=<%= booking.id %>>
+        <input type='submit' value='Deny'>
+      </form>
+      <% end %>
     </div>
   <% end %>
 

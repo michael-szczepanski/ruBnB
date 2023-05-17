@@ -115,4 +115,16 @@ class Application < Sinatra::Base
 
     return erb(:bookings)
   end
+
+  post '/confirm' do
+    booking_repo = BookingRepository.new
+    booking_repo.confirm(params[:id]) 
+    redirect '/bookings'
+  end
+
+  post '/deny' do
+    booking_repo = BookingRepository.new
+    booking_repo.deny(params[:id]) 
+    redirect '/bookings'
+  end
 end
