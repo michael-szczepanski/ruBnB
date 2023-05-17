@@ -155,7 +155,7 @@ describe Application do
 
       expect(response.status).to eq 200
       expect(response.body).to include "Jill's converted well" # name of space
-      expect(response.body).to include '19th May 2023' # date of booking
+      expect(response.body).to include '19 May 2023' # date of booking
       expect(response.body).to include 'Denied' # booking.request_status
     end
 
@@ -169,15 +169,15 @@ describe Application do
       
       expect(response.status).to eq 200
       expect(response.body).to include "Jack's House" # name of space
-      expect(response.body).to include '20th May 2023' # date of booking
+      expect(response.body).to include '20 May 2023' # date of booking
       expect(response.body).to include 'Pending' # booking.request_status
 
       expect(response.body).to include "Jack's Shed" # name of space
-      expect(response.body).to include '26th May 2023' # date of booking
+      expect(response.body).to include '26 May 2023' # date of booking
       expect(response.body).to include 'Pending' # booking.request_status
 
       expect(response.body).to include "Jack's Shed" # name of space
-      expect(response.body).to include '26th May 2023' # date of booking
+      expect(response.body).to include '26 May 2023' # date of booking
       expect(response.body).to include 'Pending' # booking.request_status
     end
   end
