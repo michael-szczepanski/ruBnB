@@ -107,11 +107,11 @@ class Application < Sinatra::Base
   end
 
   get '/bookings' do
-    repo = BookingRepository.new
+    booking_repo = BookingRepository.new
     @space_repo = SpaceRepository.new
 
-    @user_bookings = repo.find_by_user_id(session[:user].id)
-
+    @user_bookings = booking_repo.find_by_user(session[:user].id)
+    @space_bookings = booking_repo.find_for_user(session[:user].id)
 
     return erb(:bookings)
   end
