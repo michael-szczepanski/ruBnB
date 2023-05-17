@@ -1,11 +1,16 @@
-<%= @space.name %> <br>
-<%= @space.description %> <br>
+<% content_for :title do %>
+    <%=@space.name%> | ruBnB
+        <% end %>
 
+            <h1>
+                <%= @space.name %>
+            </h1>
 
+            <p>
+                <%= @space.description %>
+            </p>
 
-
-<form method = 'POST' action = '/book-a-space'>
-<input type = 'hidden' name = 'id' value = <%= @space.id%> >
-<input type = 'submit' value = 'book'>
-</form>
-
+            <form method='POST' action='/book-a-space'>
+                <input type='hidden' name='id' value=<%=@space.id%> >
+                <input type='submit' value='book'>
+            </form>

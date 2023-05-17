@@ -1,9 +1,9 @@
 TRUNCATE TABLE spaces, users, bookings RESTART IDENTITY;
 
 
-INSERT INTO users (name, username, email, password) VALUES ('Jack', 'skates', 'jack@email.com', 'password123');
-INSERT INTO users (name, username, email, password) VALUES ('Jill', 'bigjill200', 'jill@email.com', 'secret456');
-INSERT INTO users (name, username, email, password) VALUES ('Molly', 'Mollay', 'molly@email.com', 'molly666');
+INSERT INTO users (name, username, email, password) VALUES ('Jack', 'skates', 'jack@email.com', '$2a$12$RWbFtjHnA3kC2Gt31m7/l.N4f8ISipDp9T7KIyvSHhww/sGqohGHS'); -- pwtest1
+INSERT INTO users (name, username, email, password) VALUES ('Jill', 'bigjill200', 'jill@email.com', '$2a$12$BV.yJVJm0fDOX0ikKe/6V.DjV5T4KqfMzWUh5B0Yd.QDIOGdyLNIK'); -- pwtest2
+INSERT INTO users (name, username, email, password) VALUES ('Molly', 'Mollay', 'molly@email.com', '$2a$12$BV.yJVJm0fDOX0ikKe/6V.DjV5T4KqfMzWUh5B0Yd.QDIOGdyLNIK'); -- pwtest2
 
 
 INSERT INTO spaces (name, description, price_per_night, available_from, available_to, user_id) 

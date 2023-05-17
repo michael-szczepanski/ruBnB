@@ -1,17 +1,43 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Spaces | ruBnB</title>
-  </head>
-  <body>
+<% content_for :title do %>
+  Spaces | ruBnB
+  <% end %>
     <h1>ruBnB</h1>
+    <% if session[:user] == nil %>
+      <% flash.keys.each do |type| %>
+        <div data-alert class="flash <%= type %> alert-box radius">
+          <%= flash[type] %>
+          <a href="#" class="close">&times;</a>
+        </div>
+      <% end %>
+      <form method="POST" action="/login">
+      <div>
+      <label for="email">Email</label>
+      <input type="text" name="email" placeholder="eg: jack@gmail.com">
+      </div>
+
+      <div>
+      <label for="password">Password</label>
+      <input type="password" name="password" placeholder="eg supersecret12321">
+      </div>
+
+      <div>
+      <button type="submit">Login Now!</button>
+      </div>
+      </form>
+    <% else %>
+      <div><h3>Welcome <%= session[:user].name %>!</h3></div>
+      <form action="/logout" method="POST">
+        <input type="submit" value="Log out" />
+      </form>
+    <% end %>
+
     <h2>Here are all the spaces:</h2>
     <% @spaces.each do |space| %>
       <div>
-        <h3><a href="/spaces/<%=space.id%>"><%= space.name %></a></h3>
+        <h3><a href="/spaces/<%=space.id%>">
+            <%= space.name %>
+          </a></h3>
         About this space: <%= space.description %> <br>
         Price per night: £<%= space.price_per_night %> <br>
       </div>
-    <% end %>
-  </body>
-</html>
+      <% end %>

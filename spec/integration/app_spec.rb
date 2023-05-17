@@ -31,7 +31,7 @@ describe Application do
       response = get("/spaces")
 
       expect(response.status).to eq(200)
-      expect(response.body).to include("<title>Spaces | ruBnB</title>")
+      expect(response.body).to include("Spaces | ruBnB")
       expect(response.body).to include("Jack's House")
       expect(response.body).to include("This is my lovely house")
       expect(response.body).to include("Jack's Shed")
@@ -51,6 +51,45 @@ describe Application do
     end
   end
 
+  context 'GET /signup' do
+    it ' Should return status 200 and display sign up form' do
+      response = get('/signup')
+
+      expect(response.status).to eq 200
+      expect(response.body).to include 'form'
+      expect(response.body).to include 'POST'
+      expect(response.body).to include '/signup'
+    end
+  end
+
+  context 'POST /signup' do
+    it "Should return status 200 and add a new user to the database" do
+      response = post('/signup', { 
+        name: "Mike", 
+        username: "mike",
+        email: "mike@mike.com",
+        password: "verysecurepassword" })
+      expect(response.status).to eq 302
+
+      response = get('/spaces')
+      expect(response.body).to include "Welcome Mike!"
+    end
+  end
+
+  context 'POST /login' do
+    it 'Should allow login with valid credentials' do
+      response = post('/login', {
+        email: 'jack@email.com',
+        password: 'pwtest1'
+      })
+
+      expect(response.status).to eq 302
+
+      response = get('/spaces')
+      expect(response.body).to include "Welcome Jack!"
+    end
+  end
+
   context 'POST /spaces/new' do
     it 'creates a new space' do
 
@@ -62,8 +101,11 @@ describe Application do
         user_id: 1
       )
 
-      expect(response.status).to eq 200
-      expect(response.body).to include('space added')
+      expect(response.status).to eq 302
+      
+      response = get('/spaces')
+      expect(response.body).to include('treehouse')
+      expect(response.body).to include('a lovely treehouse')
     end
   end
   
@@ -87,6 +129,18 @@ describe Application do
       response = get('/spaces/1')
       # TODO: what expectation here?
       # expect(response.body).to include 'Availability: false'
+    end
+  end
+
+  context 'POST /logout' do
+    it 'logs a user out of website' do
+      post('/login', {
+        email: 'jack@email.com',
+        password: 'pwtest1'
+      })
+      post('/logout')
+      response = get('/spaces')
+      expect(response.body).not_to include 'Welcome Jack!'
     end
   end
 end
