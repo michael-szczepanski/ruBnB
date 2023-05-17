@@ -42,7 +42,7 @@ describe Application do
       expect(response.status).to eq 200
 
       expect(response.body).to include 'Welcome, Jack!'
-      expect(response.body).to include 'Your current listings:'
+      expect(response.body).to include 'Here are your current spaces:'
       expect(response.body).to include "Jack's House"
       expect(response.body).to include "Jack's Shed"
 

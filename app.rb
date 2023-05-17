@@ -28,6 +28,8 @@ class Application < Sinatra::Base
     if session[:user] == nil
       return erb(:index)
     else
+      repo = SpaceRepository.new
+      @spaces_by_user = repo.all_by_user(session[:user])
       return erb(:userpage)
     end
   end

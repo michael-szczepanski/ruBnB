@@ -43,6 +43,28 @@ RSpec.describe SpaceRepository do
   end
   
   context 'READ' do
+    it 'finds all spaces for a specific user id' do
+      repo = SpaceRepository.new
+      user_repo = UserRepository.new
+      user = user_repo.log_in('jack@email.com', 'pwtest1')
+      results = repo.all_by_user(user)
+
+      
+      expect(results.length).to eq 2
+      expect(results[0].id).to eq 1
+      expect(results[0].name).to eq "Jack's House"
+      expect(results[0].description).to eq "This is my lovely house"
+      expect(results[0].price_per_night).to eq "10.50"
+      expect(results[0].user_id).to eq 1
+
+      expect(results[1].id).to eq 2
+      expect(results[1].name).to eq "Jack's Shed"
+      expect(results[1].description).to eq "This is my less-lovely shed"
+      expect(results[1].price_per_night).to eq "10.00"
+      expect(results[1].user_id).to eq 1
+
+    end
+    
     it 'finds a space by ID' do
       repo = SpaceRepository.new
       

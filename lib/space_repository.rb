@@ -13,6 +13,17 @@ class SpaceRepository
     return spaces_array
   end
 
+  def all_by_user(user)
+    sql = 'SELECT id, name, description, price_per_night, available_from, available_to, user_id FROM spaces WHERE user_id = $1;'
+    sql_params = [user.id]
+    result = DatabaseConnection.exec_params(sql, sql_params)
+    spaces_array = []
+    result.each do |row|
+      spaces_array << get_space(row)
+    end
+    return spaces_array
+  end
+
   def create(space)
     sql = 'INSERT INTO spaces (name, description, price_per_night, available_from, available_to, user_id) VALUES($1, $2, $3, $4, $5, $6) RETURNING id;'
 
