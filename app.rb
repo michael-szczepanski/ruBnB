@@ -25,7 +25,11 @@ class Application < Sinatra::Base
   end
 
   get '/' do
-    redirect "/spaces"
+    if session[:user] == nil
+      return erb(:index)
+    else
+      return erb(:userpage)
+    end
   end
 
   get '/spaces' do

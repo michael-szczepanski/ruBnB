@@ -19,11 +19,35 @@ describe Application do
 
 
   context 'GET /' do
-    it 'should redirect to /spaces' do
+    xit 'if user is logged out show log-in page' do
       response = get('/')
 
-      expect(response.status).to eq(302)
+      expect(response.status).to eq 200
+
+      expect(response.body).to include 'Sign in'
+      expect(response.body).to include 'Welcome to ruBnB'
+      expect(response.body).to include 'New to ruBnB? Sign up <a href="/signup">here!</a>'
+
+
     end
+
+    it 'if user is logged in it shows the userpage' do
+      post('/login', {
+        email: 'jack@email.com',
+        password: 'pwtest1'
+      })
+
+      response = get('/')
+      
+      expect(response.status).to eq 200
+
+      expect(response.body).to include 'Welcome, Jack!'
+      expect(response.body).to include 'Your current listings:'
+      expect(response.body).to include "Jack's House"
+      expect(response.body).to include "Jack's Shed"
+
+    end
+    
   end
   
    context "GET /spaces" do
