@@ -1,3 +1,30 @@
- <p>This is the homepage.</h1>
+<h1>Welcome to ruBnB!</h1>
 
- 
+<h2>Log in</h2>
+
+<% flash.keys.each do |type| %>
+    <div data-alert class="flash <%= type %> alert-box radius">
+        <%= flash[type] %>
+            <a href="#" class="close">&times;</a>
+    </div>
+    <% end %>
+        <form method="POST" action="/login">
+            <div>
+                <label for="email">Email</label>
+                <input type="text" name="email" placeholder="eg: jack@gmail.com">
+            </div>
+
+            <div>
+                <label for="password">Password</label>
+                <input type="password" name="password" placeholder="eg supersecret12321">
+            </div>
+
+            <div>
+                <button type="submit">Login Now!</button>
+            </div>
+        </form>
+
+
+        <br>
+
+        <p>New to ruBnB? Sign up <a href="/signup">here!</a></p>

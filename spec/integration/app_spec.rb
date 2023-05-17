@@ -19,12 +19,12 @@ describe Application do
 
 
   context 'GET /' do
-    xit 'if user is logged out show log-in page' do
+    it 'if user is logged out show log-in page' do
       response = get('/')
 
       expect(response.status).to eq 200
 
-      expect(response.body).to include 'Sign in'
+      expect(response.body).to include 'Log in'
       expect(response.body).to include 'Welcome to ruBnB'
       expect(response.body).to include 'New to ruBnB? Sign up <a href="/signup">here!</a>'
 
@@ -95,8 +95,8 @@ describe Application do
         password: "verysecurepassword" })
       expect(response.status).to eq 302
 
-      response = get('/spaces')
-      expect(response.body).to include "Welcome Mike!"
+      response = get('/')
+      expect(response.body).to include "Welcome, Mike!"
     end
   end
 
@@ -109,8 +109,8 @@ describe Application do
 
       expect(response.status).to eq 302
 
-      response = get('/spaces')
-      expect(response.body).to include "Welcome Jack!"
+      response = get('/')
+      expect(response.body).to include "Welcome, Jack!"
     end
   end
 

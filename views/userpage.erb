@@ -1,12 +1,16 @@
 <h1>Welcome, <%=session[:user].name%>!</h1>
 
+<form action="/logout" method="POST">
+    <input type="submit" value="Log out" />
+</form>
+
 <h2>Here are your current spaces:</h2>
-    <% @spaces_by_user.each do |space| %>
-      <div>
+<% @spaces_by_user.each do |space| %>
+    <div>
         <h3><a href="/spaces/<%=space.id%>">
-            <%= space.name %>
-          </a></h3>
+                <%= space.name %>
+            </a></h3>
         About this space: <%= space.description %> <br>
-        Price per night: £<%= space.price_per_night %> <br>
-      </div>
-      <% end %>
+            Price per night: £<%= space.price_per_night %> <br>
+    </div>
+    <% end %>
