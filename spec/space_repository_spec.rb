@@ -72,4 +72,20 @@ RSpec.describe SpaceRepository do
         "2023-06-02"]
     end
   end
+
+  # context '#get_confirmed_bookings' do
+  #   it 'returns list of confirmed bookings' do
+  #     repo = SpaceRepository.new
+  #     result = repo.get_confirmed_bookings(3)
+
+  #     expect(result).to eq ['2023-05-19']
+  #   end
+  # end
+  context '#availability status' do
+  it 'gets availability' do
+    repo = SpaceRepository.new
+    result = repo.availability_status(3)
+    expect(result).to eq [{ date: "2023-05-19", status: "unavailable"}]
+  end
+end
 end

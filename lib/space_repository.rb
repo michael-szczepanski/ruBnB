@@ -1,4 +1,5 @@
 require_relative 'space'
+require_relative 'booking'
 require_relative 'database_connection'
 require 'time'
 # require 'date'
@@ -45,6 +46,19 @@ class SpaceRepository
     return result
   end
 
+  def availability_status(id)
+    space = find_by_id(id).availabilty_range
+    bookings = get_confirmed_bookings(id)
+
+    space.map do |date|
+      if bookings.include? date
+        date = { date: date, status: "unavailable"}
+      else
+        date = { date: date, status: "available"}
+      end
+    end
+  end
+  
   private
 
   def date_availabilty_range(available_from, available_to)
@@ -54,6 +68,23 @@ class SpaceRepository
       date.strftime('%Y-%m-%d')
     end
     return range
+  end
+
+  def get_confirmed_bookings(id)
+    sql = "SELECT date FROM bookings WHERE space_id = $1 AND request_status = 'confirmed'"
+
+    params = [id]
+
+    result = DatabaseConnection.exec_params(sql, params)
+
+    bookings = []
+    result.each do |booking|
+      confirmed_booking = Booking.new
+      confirmed_booking.date = booking['date']
+      bookings << confirmed_booking.date
+    end
+
+    return bookings
   end
 
   def get_space(entry)
