@@ -92,13 +92,16 @@ describe Application do
 
   context 'POST /spaces/new' do
     it 'creates a new space' do
+      post('/login', {
+        email: 'jack@email.com',
+        password: 'pwtest1'
+      })
 
       response = post(
         '/spaces/new',
         name: 'treehouse',
         description: 'a lovely treehouse',
-        price_per_night: 50.0,
-        user_id: 1
+        price_per_night: 50.00
       )
 
       expect(response.status).to eq 302
