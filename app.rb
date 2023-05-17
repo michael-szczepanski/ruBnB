@@ -8,6 +8,7 @@ require_relative 'lib/space_repository'
 require_relative 'lib/space'
 require_relative 'lib/user_repository'
 require_relative 'lib/user'
+require_relative 'lib/booking_repository'
 
 if ENV['ENV'] != 'test'
   DatabaseConnection.connect('rubnb')
@@ -103,5 +104,13 @@ class Application < Sinatra::Base
 
     redirect "/spaces/#{params[:id]}"
 
+  end
+
+  get '/bookings' do
+    repo = BookingRepository.new
+
+    @user_bookings = repo.find_by_user_id(session[:user].id)
+
+    return erb(:bookings)
   end
 end
