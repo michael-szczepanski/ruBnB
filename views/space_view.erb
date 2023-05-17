@@ -10,6 +10,13 @@
                 <%= @space.description %>
             </p>
 
+            <div>
+                <% @space.availabilty_range.each do |date|%>
+                  <p>
+                    <%= date%>
+                  </p>
+                <% end %>
+            </div>
             <form method='POST' action='/book-a-space'>
                 <input type='hidden' name='id' value=<%=@space.id%> >
                 <input type='submit' value='book'>

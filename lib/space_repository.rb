@@ -1,5 +1,9 @@
 require_relative 'space'
 require_relative 'database_connection'
+require 'time'
+# require 'date'
+# require 'datetime'
+
 
 class SpaceRepository
 
@@ -35,11 +39,22 @@ class SpaceRepository
     sql_params = [id]
 
     entry = DatabaseConnection.exec_params(sql,sql_params)[0]
-
-    get_space(entry)
+    date_range = date_availabilty_range(entry['available_from'], entry['available_to'])
+    result = get_space(entry)
+    result.availabilty_range = date_range
+    return result
   end
 
   private
+
+  def date_availabilty_range(available_from, available_to)
+    new_from = Date.parse(available_from)
+    new_to = Date.parse(available_to)
+    range = (new_from..new_to).map do |date|
+      date.strftime('%Y-%m-%d')
+    end
+    return range
+  end
 
   def get_space(entry)
     space = Space.new
