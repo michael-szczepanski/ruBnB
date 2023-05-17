@@ -84,7 +84,6 @@ class Application < Sinatra::Base
     space.name = params[:name]
     space.description = params[:description]
     space.price_per_night = params[:price_per_night]
-    space.availability = params[:availability] == "true" ? true : false
     space.user_id = 1
 
     repo.create(space)

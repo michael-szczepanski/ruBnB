@@ -48,7 +48,6 @@ describe Application do
       expect(response.status).to eq 200
       expect(response.body).to include('Create your space!')
       expect(response.body).to include('action="/spaces/new" method="POST"')
-      expect(response.body).to include('type="radio" id="available" name="availability" value="true"')
     end
   end
 
@@ -99,7 +98,6 @@ describe Application do
         name: 'treehouse',
         description: 'a lovely treehouse',
         price_per_night: 50.0,
-        availability: true,
         user_id: 1
       )
 
@@ -120,7 +118,6 @@ describe Application do
       response = get('/spaces/2')
       expect(response.status).to eq 200
       expect(response.body).to include 'This is my less-lovely shed'
-
     end
   end
 
@@ -130,7 +127,8 @@ describe Application do
       expect(response.status).to eq 302
 
       response = get('/spaces/1')
-      expect(response.body).to include 'Availability: false'
+      # TODO: what expectation here?
+      # expect(response.body).to include 'Availability: false'
     end
   end
 

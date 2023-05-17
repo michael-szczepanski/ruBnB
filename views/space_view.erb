@@ -10,10 +10,6 @@
                 <%= @space.description %>
             </p>
 
-
-            <p>Availability: <%= @space.availability %>
-            </p>
-
             <form method='POST' action='/book-a-space'>
                 <input type='hidden' name='id' value=<%=@space.id%> >
                 <input type='submit' value='book'>
