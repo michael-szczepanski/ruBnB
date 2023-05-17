@@ -24,8 +24,7 @@ RSpec.describe SpaceRepository do
       last_space = repo.all.last
       expect(last_space.name).to eq 'The Moon'
       expect(last_space.description).to eq 'made of cheese'
-      expect(last_space.price_per_night).to eq 2.99
-      expect(last_space.availability).to eq "true"
+      expect(last_space.price_per_night).to eq "2.99"
       expect(last_space.user_id).to eq 2
     end
   end
@@ -52,7 +51,7 @@ RSpec.describe SpaceRepository do
       expect(space.id).to eq 1
       expect(space.name).to eq "Jack's House"
       expect(space.description).to eq "This is my lovely house"
-      expect(space.price_per_night).to eq 10.50
+      expect(space.price_per_night).to eq "10.50"
       expect(space.user_id).to eq 1
 
       space = repo.find_by_id(2)
@@ -60,7 +59,7 @@ RSpec.describe SpaceRepository do
       expect(space.id).to eq 2
       expect(space.name).to eq "Jack's Shed"
       expect(space.description).to eq "This is my less-lovely shed"
-      expect(space.price_per_night).to eq 10.00
+      expect(space.price_per_night).to eq "10.00"
       expect(space.user_id).to eq 1
     end
   end

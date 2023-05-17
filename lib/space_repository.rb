@@ -46,7 +46,7 @@ class SpaceRepository
     space.id = entry['id'].to_i
     space.name = entry['name']
     space.description = entry['description']
-    space.price_per_night = entry['price_per_night'].to_f
+    space.price_per_night = sprintf("%.2f", entry['price_per_night'])
     space.available_from = entry['available_from']
     space.available_to = entry['available_to']
     space.user_id = entry['user_id'].to_i
