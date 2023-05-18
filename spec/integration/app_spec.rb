@@ -47,6 +47,15 @@ describe Application do
       expect(response.body).to include "Jack's Shed"
 
     end
+
+    it 'displays the top requested spaces' do
+      response = get('/')
+
+      expect(response.status).to eq 200
+
+      expect(response.body).to include "Jack's shed"
+      expect(response.body).to include "Jill's well"
+    end
     
   end
   
