@@ -27,8 +27,6 @@ describe Application do
       expect(response.body).to include 'Log in'
       expect(response.body).to include 'Welcome to ruBnB'
       expect(response.body).to include 'New to ruBnB? Sign up <a href="/signup">here!</a>'
-
-
     end
 
     it 'if user is logged in it shows the userpage' do
@@ -45,9 +43,7 @@ describe Application do
       expect(response.body).to include 'Here are your current spaces:'
       expect(response.body).to include "Jack's House"
       expect(response.body).to include "Jack's Shed"
-
     end
-    
   end
   
    context "GET /spaces" do
@@ -125,14 +121,17 @@ describe Application do
         '/spaces/new',
         name: 'treehouse',
         description: 'a lovely treehouse',
-        price_per_night: 50.00
+        price_per_night: 50.00,
+        available_from: '2023-05-19',
+        available_to: '2023-05-23'
       )
 
       expect(response.status).to eq 302
       
-      response = get('/spaces')
+      response = get('/')
       expect(response.body).to include('treehouse')
       expect(response.body).to include('a lovely treehouse')
+      expect(response.body).to include ('£50.00')
     end
   end
   

@@ -18,13 +18,15 @@
       <input id="price_per_night" type="number" placeholder="Enter the price per night." name="price_per_night" step="0.01" required />
     </div>
 
-    <fieldset>
-      <legend>Select the availability</legend>
-      <label for="available">Available</label>
-      <input type="radio" id="available" name="availability" value="true" />
-      <label for="unavailable">Unavailable</label>
-      <input type="radio" id="unavailable" name="availability" value="false" />
-    </fieldset>
+    <div>
+      <label for="available_from">Available from:</label>
+      <input type="date" name="available_from" id="available_from" />
+    </div>
+
+    <div>
+      <label for="available_to">Available to:</label>
+      <input type="date" name="available_to" id="available_to" />
+    </div>
     <button type="submit">Submit</button>
   </form>
 </div>

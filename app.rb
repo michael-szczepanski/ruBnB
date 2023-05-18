@@ -87,19 +87,21 @@ class Application < Sinatra::Base
 
   post '/spaces/new' do
 
-    # if session[:user] == nil
-    #   redirect '/'
-    # end
+    if session[:user] == nil
+      redirect '/'
+    end
 
     repo = SpaceRepository.new
     space = Space.new
     space.name = params[:name]
     space.description = params[:description]
     space.price_per_night = params[:price_per_night]
+    space.available_from = params[:available_from]
+    space.available_to = params[:available_to]
     space.user_id = session[:user].id
 
     repo.create(space)
-    redirect('/spaces')
+    redirect('/')
   end
 
   get '/spaces/:id' do

@@ -7,8 +7,6 @@ RSpec.describe SpaceRepository do
     reset_tables
   end
 
-
-  
   context 'The All Method' do
     it 'returns all the spaces' do
       repo = SpaceRepository.new
