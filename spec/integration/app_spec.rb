@@ -53,8 +53,8 @@ describe Application do
 
       expect(response.status).to eq 200
 
-      expect(response.body).to include "Jack's shed"
-      expect(response.body).to include "Jill's well"
+      expect(response.body).to include "Jack's Shed"
+      expect(response.body).to include "Jill's converted well"
     end
     
   end
