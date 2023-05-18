@@ -7,27 +7,7 @@ RSpec.describe SpaceRepository do
     reset_tables
   end
 
-  context '#create(space)' do
-    it 'creates a new single space' do
-      
-      new_space = Space.new
-      repo = SpaceRepository.new
 
-      new_space.name = 'The Moon'
-      new_space.description = 'made of cheese'
-      new_space.price_per_night = 2.99
-      new_space.user_id = 2
-
-      response = repo.create(new_space)
-
-      expect(response[0]['id']).to eq "4"
-      last_space = repo.all.last
-      expect(last_space.name).to eq 'The Moon'
-      expect(last_space.description).to eq 'made of cheese'
-      expect(last_space.price_per_night).to eq "2.99"
-      expect(last_space.user_id).to eq 2
-    end
-  end
   
   context 'The All Method' do
     it 'returns all the spaces' do
@@ -45,11 +25,8 @@ RSpec.describe SpaceRepository do
   context 'READ' do
     it 'finds all spaces for a specific user id' do
       repo = SpaceRepository.new
-      user_repo = UserRepository.new
-      user = user_repo.log_in('jack@email.com', 'pwtest1')
-      results = repo.all_by_user(user)
+      results = repo.all_by_user(1)
 
-      
       expect(results.length).to eq 2
       expect(results[0].id).to eq 1
       expect(results[0].name).to eq "Jack's House"
@@ -62,7 +39,6 @@ RSpec.describe SpaceRepository do
       expect(results[1].description).to eq "This is my less-lovely shed"
       expect(results[1].price_per_night).to eq "10.00"
       expect(results[1].user_id).to eq 1
-
     end
     
     it 'finds a space by ID' do
@@ -104,10 +80,38 @@ RSpec.describe SpaceRepository do
   #   end
   # end
   context '#availability status' do
-  it 'gets availability' do
-    repo = SpaceRepository.new
-    result = repo.availability_status(3)
-    expect(result).to eq [{ date: "2023-05-19", status: "unavailable"}]
+    it 'gets availability' do
+      repo = SpaceRepository.new
+      result = repo.availability_status(3)
+      expect(result).to eq [{ date: "2023-05-19", status: "unavailable"}]
+    end
   end
-end
+
+  context '#create(space)' do
+    it 'creates a new single space' do
+      
+      new_space = Space.new
+      repo = SpaceRepository.new
+
+      new_space.name = 'The Moon'
+      new_space.description = 'made of cheese'
+      new_space.price_per_night = 2.99
+      new_space.available_from = '2023-05-19'
+      new_space.available_to = '2023-05-23'
+      new_space.user_id = 2
+
+      response = repo.create(new_space)
+
+      expect(response[0]['id']).to eq "4"
+
+      last_space = repo.all.last
+
+      expect(last_space.name).to eq 'The Moon'
+      expect(last_space.description).to eq 'made of cheese'
+      expect(last_space.price_per_night).to eq "2.99"
+      expect(last_space.available_from).to eq '2023-05-19'
+      expect(last_space.available_to).to eq '2023-05-23'
+      expect(last_space.user_id).to eq 2
+    end
+  end
 end

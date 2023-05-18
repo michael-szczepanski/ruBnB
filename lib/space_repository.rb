@@ -18,9 +18,9 @@ class SpaceRepository
     return spaces_array
   end
 
-  def all_by_user(user)
+  def all_by_user(id)
     sql = 'SELECT id, name, description, price_per_night, available_from, available_to, user_id FROM spaces WHERE user_id = $1;'
-    sql_params = [user.id]
+    sql_params = [id]
     result = DatabaseConnection.exec_params(sql, sql_params)
     spaces_array = []
     result.each do |row|
