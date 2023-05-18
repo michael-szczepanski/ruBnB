@@ -48,7 +48,7 @@ RSpec.describe BookingRepository do
       request = repo.create('2023-05-16', 3, 1)
       booking = repo.find_by_user(3).last
 
-      expect(booking.id).to eq 6
+      expect(booking.id).to eq 7
       expect(booking.date.to_s).to eq '2023-05-16'
       expect(booking.request_status).to eq "pending"
       expect(booking.user_id).to eq 3
@@ -97,7 +97,7 @@ RSpec.describe BookingRepository do
       denied_booking = repo.find_by_id(3)
       expect(denied_booking.request_status).to eq "denied"
 
-      denied_booking = repo.find_by_id(6)
+      denied_booking = repo.find_by_id(7)
       expect(denied_booking.request_status).to eq "denied"
     
     end
