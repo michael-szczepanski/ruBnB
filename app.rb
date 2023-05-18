@@ -66,7 +66,7 @@ class Application < Sinatra::Base
     else
       flash[:username] = "Username already in use" unless username_valid
       flash[:email] = "Email already in use" unless email_valid
-      redirect '/signup'
+      redirect back
     end
   end
 
@@ -79,8 +79,12 @@ class Application < Sinatra::Base
     email = params[:email]
     password = params[:password]
     session[:user] = repo.log_in(email, password)
-    flash[:error] = "email/password incorrect" if session[:user] == nil
-    redirect '/my_spaces'
+    if session[:user] == nil
+      flash[:error] = "email/password incorrect"
+      redirect back
+    else
+      redirect '/my_spaces'
+    end
   end
 
   get '/logout' do
@@ -124,7 +128,7 @@ class Application < Sinatra::Base
     redirect('/my_spaces')
     else
       flash[:dates_valid] = "Your space should be available for at least one night."
-      redirect('/spaces/new')
+      redirect back
     end
   end
 
