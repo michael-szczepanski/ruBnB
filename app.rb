@@ -82,17 +82,25 @@ class Application < Sinatra::Base
   end
 
   get '/spaces/new' do
-    return erb(:spaces_new)
-  end
-
-  post '/spaces/new' do
-
     if session[:user] == nil
       redirect '/'
     end
 
+    return erb(:spaces_new)
+  end
+
+  post '/spaces/new' do
+    if session[:user] == nil
+      redirect '/'
+    end
+    
     repo = SpaceRepository.new
     space = Space.new
+
+    dates_valid = (Date.parse(params[:available_to]) >= Date.parse(params[:available_from]))
+    
+    if dates_valid
+
     space.name = params[:name]
     space.description = params[:description]
     space.price_per_night = params[:price_per_night]
@@ -102,6 +110,10 @@ class Application < Sinatra::Base
 
     repo.create(space)
     redirect('/')
+    else
+      flash[:dates_valid] = "Your space should be available for at least one night."
+      redirect('/spaces/new')
+    end
   end
 
   get '/spaces/:id' do

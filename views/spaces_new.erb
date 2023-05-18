@@ -27,6 +27,10 @@
       <label for="available_to">Available to:</label>
       <input type="date" name="available_to" id="available_to" required />
     </div>
+
+    <% flash.keys.each do |type| %>
+    <div data-alert class="flash <%= type %> alert-box radius"><%= flash[type] %></div>
+    <% end %>
     <button type="submit">Submit</button>
   </form>
 </div>
