@@ -31,23 +31,6 @@ describe Application do
 
     end
 
-    it 'if user is logged in it shows the userpage' do
-      post('/login', {
-        email: 'jack@email.com',
-        password: 'pwtest1'
-      })
-
-      response = get('/')
-      
-      expect(response.status).to eq 200
-
-      expect(response.body).to include 'Welcome, Jack!'
-      expect(response.body).to include 'Here are your current spaces:'
-      expect(response.body).to include "Jack's House"
-      expect(response.body).to include "Jack's Shed"
-
-    end
-
     it 'displays the top requested spaces' do
       response = get('/')
 
@@ -71,6 +54,24 @@ describe Application do
       expect(response.body).to include("This is my less-lovely shed")
       expect(response.body).to include("Jill's converted well")
       expect(response.body).to include("Feel like a frog looking at the sky")
+    end
+  end
+
+  context 'GET /my_spaces' do
+    it 'displays the user page' do
+      post('/login', {
+        email: 'jack@email.com',
+        password: 'pwtest1'
+      })
+      
+      response = get('/my_spaces')
+
+      expect(response.status).to eq 200
+
+      expect(response.body).to include 'Welcome, Jack!'
+      expect(response.body).to include 'Here are your current spaces:'
+      expect(response.body).to include "Jack's House"
+      expect(response.body).to include "Jack's Shed"
     end
   end
 
@@ -104,7 +105,7 @@ describe Application do
         password: "verysecurepassword" })
       expect(response.status).to eq 302
 
-      response = get('/')
+      response = get('/my_spaces')
       expect(response.body).to include "Welcome, Mike!"
     end
   end
@@ -118,7 +119,7 @@ describe Application do
 
       expect(response.status).to eq 302
 
-      response = get('/')
+      response = get('/my_spaces')
       expect(response.body).to include "Welcome, Jack!"
     end
   end

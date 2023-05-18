@@ -4,6 +4,8 @@
 
 <h1>Welcome to ruBnB!</h1>
 
+<% if @user_not_logged_in %> 
+
 <h2>Log in</h2>
 
 <% flash.keys.each do |type| %>
@@ -32,6 +34,8 @@
         <br>
 
         <p>New to ruBnB? Sign up <a href="/signup">here!</a></p>
+
+<% end %>
 
         <h2>Here are the most popular spaces:</h2>
             <% @top_spaces.each do |space| %>

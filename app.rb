@@ -28,12 +28,8 @@ class Application < Sinatra::Base
   get '/' do
     repo = SpaceRepository.new
     @top_spaces = repo.find_top_spaces
-    if session[:user] == nil
-      return erb(:index)
-    else
-      @spaces_by_user = repo.all_by_user(session[:user])
-      return erb(:userpage)
-    end
+    @user_not_logged_in = session[:user] == nil
+    return erb(:index)
   end
 
   get '/spaces' do
@@ -41,6 +37,12 @@ class Application < Sinatra::Base
     @spaces = repo.all
 
     return erb(:spaces)
+  end
+
+  get '/my_spaces' do
+    repo = SpaceRepository.new
+    @spaces_by_user = repo.all_by_user(session[:user])
+    return erb(:userpage)
   end
 
   get '/signup' do
@@ -60,7 +62,7 @@ class Application < Sinatra::Base
       user.password = params[:password]
       repo.create(user)
       session[:user] = user
-      redirect '/'
+      redirect '/my_spaces'
     else
       flash[:username] = "Username already in use" unless username_valid
       flash[:email] = "Email alread in use" unless email_valid
@@ -78,7 +80,7 @@ class Application < Sinatra::Base
     password = params[:password]
     session[:user] = repo.log_in(email, password)
     flash[:error] = "email/password incorrect" if session[:user] == nil
-    redirect '/'
+    redirect '/my_spaces'
   end
 
   get '/logout' do
