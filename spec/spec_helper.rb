@@ -1,6 +1,7 @@
 ENV['ENV'] = 'test'
 
 require 'database_connection'
+require 'time'
 
 DatabaseConnection.connect('rubnb_test')
 

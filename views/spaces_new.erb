@@ -4,27 +4,33 @@
 <div>
   <form action="/spaces/new" method="POST">
     <div>
-      <label for="name">Name</label>
+      <label for="name">Name:</label>
       <input id="name" type="text" placeholder="Enter the name of your space." name="name" required />
     </div>
 
     <div>
-      <label for="decription">Description</label>
+      <label for="decription">Description:</label>
       <input id="description" type="text" placeholder="Enter the description." name="description" required />
     </div>
 
     <div>
-      <label for="price_per_night">Price per night £</label>
+      <label for="price_per_night">Price per night: £</label>
       <input id="price_per_night" type="number" placeholder="Enter the price per night." name="price_per_night" step="0.01" required />
     </div>
 
-    <fieldset>
-      <legend>Select the availability</legend>
-      <label for="available">Available</label>
-      <input type="radio" id="available" name="availability" value="true" />
-      <label for="unavailable">Unavailable</label>
-      <input type="radio" id="unavailable" name="availability" value="false" />
-    </fieldset>
+    <div>
+      <label for="available_from">Available from:</label>
+      <input type="date" name="available_from" id="available_from" required />
+    </div>
+
+    <div>
+      <label for="available_to">Available to:</label>
+      <input type="date" name="available_to" id="available_to" required />
+    </div>
+
+    <% flash.keys.each do |type| %>
+    <div data-alert class="flash <%= type %> alert-box radius"><%= flash[type] %></div>
+    <% end %>
     <button type="submit">Submit</button>
   </form>
 </div>
