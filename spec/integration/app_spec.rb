@@ -105,7 +105,7 @@ describe Application do
 
       expect(response.status).to eq 302
       
-      response = get('/')
+      response = get('/spaces')
       expect(response.body).to include('treehouse')
       expect(response.body).to include('a lovely treehouse')
       expect(response.body).to include ('£50.00')
@@ -192,12 +192,14 @@ describe Application do
         '/spaces/new',
         name: 'treehouse',
         description: 'a lovely treehouse',
-        price_per_night: 50.00
+        price_per_night: 50.00,
+        available_from: "2023-05-19",
+        available_to: "2023-05-20"
       )
 
       expect(response.status).to eq 302
       
-      response = get('/spaces')
+      response = get('/my_spaces')
       expect(response.body).to include('treehouse')
       expect(response.body).to include('a lovely treehouse')
     end

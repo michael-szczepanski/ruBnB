@@ -1,7 +1,11 @@
-ENV['ENV'] = 'test'
-
 require 'database_connection'
 require 'time'
+require 'simplecov'
+SimpleCov.start
+require 'simplecov-cobertura'
+SimpleCov.formatter = SimpleCov::Formatter::CoberturaFormatter
+
+ENV['ENV'] = 'test'
 
 DatabaseConnection.connect('rubnb_test')
 

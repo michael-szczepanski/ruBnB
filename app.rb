@@ -41,7 +41,7 @@ class Application < Sinatra::Base
 
   get '/my_spaces' do
     repo = SpaceRepository.new
-    @spaces_by_user = repo.all_by_user(session[:user])
+    @spaces_by_user = repo.all_by_user(session[:user].id)
     return erb(:userpage)
   end
 
@@ -121,7 +121,7 @@ class Application < Sinatra::Base
     space.user_id = session[:user].id
 
     repo.create(space)
-    redirect('/')
+    redirect('/my_spaces')
     else
       flash[:dates_valid] = "Your space should be available for at least one night."
       redirect('/spaces/new')

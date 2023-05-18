@@ -21,3 +21,7 @@ gem "bcrypt", "~> 3.1"
 gem "sinatra-flash", "~> 0.3.0"
 
 gem "rubocop", "~> 1.51"
+
+gem "simplecov", "~> 0.22.0"
+
+gem "simplecov-cobertura", "~> 2.1"
