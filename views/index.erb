@@ -28,3 +28,14 @@
         <br>
 
         <p>New to ruBnB? Sign up <a href="/signup">here!</a></p>
+
+        <h2>Here are the most popular spaces:</h2>
+            <% @top_spaces.each do |space| %>
+            <div>
+                <h3><a href="/spaces/<%=space.id%>">
+                <%= space.name %>
+                </a></h3>
+                About this space: <%= space.description %> <br>
+                Price per night: £<%= space.price_per_night %> <br>
+            </div>
+        <% end %>

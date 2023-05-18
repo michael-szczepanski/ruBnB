@@ -93,6 +93,14 @@ RSpec.describe SpaceRepository do
         "2023-06-01",
         "2023-06-02"]
     end
+
+    it 'finds top_spaces from repository' do
+      repo = SpaceRepository.new
+      top_spaces = repo.find_top_spaces
+
+      expect(top_spaces[0].name).to eq "Jill's converted well"
+      expect(top_spaces[1].name).to eq "Jack's Shed"
+    end
   end
 
   # context '#get_confirmed_bookings' do

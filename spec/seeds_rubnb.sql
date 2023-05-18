@@ -36,4 +36,8 @@ VALUES ('2023-05-19', 'denied', 1, 3);
 INSERT INTO bookings (date, request_status, user_id, space_id)
 VALUES ('2023-05-19', 'confirmed', 3, 3);
 
+-- confirmed request from jill for well
+INSERT INTO bookings (date, request_status, user_id, space_id)
+VALUES ('2023-05-18', 'confirmed', 2, 3);
+
 

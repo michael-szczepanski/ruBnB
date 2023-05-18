@@ -26,10 +26,11 @@ class Application < Sinatra::Base
   end
 
   get '/' do
+    repo = SpaceRepository.new
+    @top_spaces = repo.find_top_spaces
     if session[:user] == nil
       return erb(:index)
     else
-      repo = SpaceRepository.new
       @spaces_by_user = repo.all_by_user(session[:user])
       return erb(:userpage)
     end
