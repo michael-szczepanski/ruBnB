@@ -33,7 +33,19 @@ RSpec.describe BookingRepository do
       expect(entries.last.space_id).to eq 2
     end
   end
+  context '#create booking' do
+    it 'should create a new booking associated with a user and space id' do
+      repo = BookingRepository.new
+      request = repo.create('2023-05-16', 3, 1)
+      booking = repo.find_by_user(3).last
 
+      expect(booking.id).to eq 6
+      expect(booking.date.to_s).to eq '2023-05-16'
+      expect(booking.request_status).to eq "pending"
+      expect(booking.user_id).to eq 3
+      expect(booking.space_id).to eq 1
+    end
+  end
   context "UPDATE" do
     it '#confirm sets request_status to confirmed' do
       repo = BookingRepository.new

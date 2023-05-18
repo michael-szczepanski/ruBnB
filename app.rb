@@ -106,15 +106,17 @@ class Application < Sinatra::Base
     repo = SpaceRepository.new
     @space = repo.find_by_id(params[:id])
     @dates = repo.availability_status(params[:id])
+    @user_id = session[:user].id if session[:user] != nil
 
     return erb(:space_view)
   end
 
-  post '/book-a-space' do
-    repo = SpaceRepository.new
-    repo.book(params[:id])
+  post '/book' do
+    redirect '/' if session[:user] == nil
+    repo = BookingRepository.new
+    repo.create(params[:date], params[:user_id], params[:space_id])
 
-    redirect "/spaces/#{params[:id]}"
+    redirect "/bookings"
 
   end
 

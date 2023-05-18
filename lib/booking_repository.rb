@@ -18,6 +18,14 @@ class BookingRepository
     return extract_bookings(result)
   end
 
+  def create(date, user_id, space_id)
+    query = 'INSERT INTO bookings (date, user_id, space_id) VALUES ($1, $2, $3);'
+    params = [date, user_id, space_id]
+
+    DatabaseConnection.exec_params(query, params)
+    return nil
+  end
+
   def confirm(booking_id)
     query = "UPDATE bookings SET request_status = 'confirmed' WHERE id = $1;"
     params = [booking_id]
