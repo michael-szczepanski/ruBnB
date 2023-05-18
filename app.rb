@@ -62,7 +62,7 @@ class Application < Sinatra::Base
       redirect '/'
     else
       flash[:username] = "Username already in use" unless username_valid
-      flash[:email] = "Email alread in use" unless email_valid
+      flash[:email] = "Email already in use" unless email_valid
       redirect '/signup'
     end
   end
