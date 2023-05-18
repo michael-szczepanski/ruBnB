@@ -93,6 +93,7 @@ class Application < Sinatra::Base
   get '/spaces/:id' do
     repo = SpaceRepository.new
     @space = repo.find_by_id(params[:id])
+    @dates = repo.availability_status(params[:id])
 
     return erb(:space_view)
   end
