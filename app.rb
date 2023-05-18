@@ -68,9 +68,8 @@ class Application < Sinatra::Base
     end
   end
 
-  get '/logout' do
-    session[:user] = nil
-    redirect '/'
+  get '/login' do
+    erb(:login)
   end
   
   post '/login' do
@@ -79,6 +78,11 @@ class Application < Sinatra::Base
     password = params[:password]
     session[:user] = repo.log_in(email, password)
     flash[:error] = "email/password incorrect" if session[:user] == nil
+    redirect '/'
+  end
+
+  get '/logout' do
+    session[:user] = nil
     redirect '/'
   end
 

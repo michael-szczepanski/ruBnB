@@ -123,6 +123,15 @@ describe Application do
     end
   end
 
+  context 'GET /login' do
+    it 'should display the log in view' do
+      response = get('/login')
+      expect(response.status).to eq 200
+      expect(response.body).to include 'name="email"'
+      expect(response.body).to include 'name="password"'
+    end
+  end
+
   context 'POST /spaces/new' do
     it 'creates a new space' do
       post('/login', {
