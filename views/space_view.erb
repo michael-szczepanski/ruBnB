@@ -6,10 +6,15 @@
 
 <div>
   <% @dates.each do |date| %>
-  <p>Date: <%= date[:date] %> Status: <%= date[:status] %></p>
-  <% end %>
-</div>
-<form method="POST" action="/book-a-space">
-  <input type="hidden" name="id" value="<%" ="@space.id%" />
+  <p>Date: <%= date[:date] %> Status: <%= date[:status] %>
+  <%if date[:status] == 'available' %>
+  <form method="POST" action="/book-a-space">
+  <input type="hidden" name="id" value="<%= @space.id %>"/>
   <input type="submit" value="book" />
 </form>
+   <% end %>
+  </p>
+  <% end %>
+  
+</div>
+
