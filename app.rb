@@ -31,7 +31,8 @@ class Application < Sinatra::Base
     if session[:user] == nil
       return erb(:index)
     else
-      @spaces_by_user = repo.all_by_user(session[:user])
+      repo = SpaceRepository.new
+      @spaces_by_user = repo.all_by_user(session[:user].id)
       return erb(:userpage)
     end
   end
@@ -63,7 +64,7 @@ class Application < Sinatra::Base
       redirect '/'
     else
       flash[:username] = "Username already in use" unless username_valid
-      flash[:email] = "Email alread in use" unless email_valid
+      flash[:email] = "Email already in use" unless email_valid
       redirect '/signup'
     end
   end
@@ -83,24 +84,38 @@ class Application < Sinatra::Base
   end
 
   get '/spaces/new' do
+    if session[:user] == nil
+      redirect '/'
+    end
+
     return erb(:spaces_new)
   end
 
   post '/spaces/new' do
-
-    # if session[:user] == nil
-    #   redirect '/'
-    # end
-
+    if session[:user] == nil
+      redirect '/'
+    end
+    
     repo = SpaceRepository.new
     space = Space.new
+
+    dates_valid = (Date.parse(params[:available_to]) >= Date.parse(params[:available_from]))
+    
+    if dates_valid
+
     space.name = params[:name]
     space.description = params[:description]
     space.price_per_night = params[:price_per_night]
+    space.available_from = params[:available_from]
+    space.available_to = params[:available_to]
     space.user_id = session[:user].id
 
     repo.create(space)
-    redirect('/spaces')
+    redirect('/')
+    else
+      flash[:dates_valid] = "Your space should be available for at least one night."
+      redirect('/spaces/new')
+    end
   end
 
   get '/spaces/:id' do

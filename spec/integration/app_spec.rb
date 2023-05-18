@@ -27,8 +27,6 @@ describe Application do
       expect(response.body).to include 'Log in'
       expect(response.body).to include 'Welcome to ruBnB'
       expect(response.body).to include 'New to ruBnB? Sign up <a href="/signup">here!</a>'
-
-
     end
 
     it 'if user is logged in it shows the userpage' do
@@ -45,9 +43,8 @@ describe Application do
       expect(response.body).to include 'Here are your current spaces:'
       expect(response.body).to include "Jack's House"
       expect(response.body).to include "Jack's Shed"
-
     end
-
+    
     it 'displays the top requested spaces' do
       response = get('/')
 
@@ -56,7 +53,6 @@ describe Application do
       expect(response.body).to include "Jack's Shed"
       expect(response.body).to include "Jill's converted well"
     end
-    
   end
   
    context "GET /spaces" do
@@ -76,11 +72,62 @@ describe Application do
 
   context 'GET /spaces/new' do
     it 'should return status 200 and form to create new space' do
+      post('/login', {
+        email: 'jack@email.com',
+        password: 'pwtest1'
+      })
+      
       response = get('/spaces/new')
 
       expect(response.status).to eq 200
       expect(response.body).to include('Create your space!')
       expect(response.body).to include('action="/spaces/new" method="POST"')
+    end
+  end
+
+  context 'POST /spaces/new' do
+    it 'creates a new space' do
+      post('/login', {
+        email: 'jack@email.com',
+        password: 'pwtest1'
+      })
+
+      response = post(
+        '/spaces/new',
+        name: 'treehouse',
+        description: 'a lovely treehouse',
+        price_per_night: 50.00,
+        available_from: '2023-05-19',
+        available_to: '2023-05-23'
+      )
+
+      expect(response.status).to eq 302
+      
+      response = get('/')
+      expect(response.body).to include('treehouse')
+      expect(response.body).to include('a lovely treehouse')
+      expect(response.body).to include ('£50.00')
+    end
+
+    it 'does not allow available_to to be earlier than available_from' do
+      post('/login', {
+        email: 'jack@email.com',
+        password: 'pwtest1'
+      })
+
+      response = post(
+        '/spaces/new',
+        name: 'treehouse 2',
+        description: 'a lovely treehouse',
+        price_per_night: 50.00,
+        available_from: '2023-05-25',
+        available_to: '2023-05-23'
+      )
+
+      expect(response.status).to eq 302
+      
+      response = get('/spaces')
+      expect(response.body).to_not include "treehouse 2"
     end
   end
 
@@ -120,28 +167,6 @@ describe Application do
 
       response = get('/')
       expect(response.body).to include "Welcome, Jack!"
-    end
-  end
-
-  context 'POST /spaces/new' do
-    it 'creates a new space' do
-      post('/login', {
-        email: 'jack@email.com',
-        password: 'pwtest1'
-      })
-
-      response = post(
-        '/spaces/new',
-        name: 'treehouse',
-        description: 'a lovely treehouse',
-        price_per_night: 50.00
-      )
-
-      expect(response.status).to eq 302
-      
-      response = get('/spaces')
-      expect(response.body).to include('treehouse')
-      expect(response.body).to include('a lovely treehouse')
     end
   end
   
