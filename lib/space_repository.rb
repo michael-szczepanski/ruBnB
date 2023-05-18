@@ -57,6 +57,24 @@ class SpaceRepository
     return result
   end
 
+  def find_top_spaces
+    sql = "SELECT spaces.id, spaces.name, spaces.description, spaces.price_per_night FROM spaces WHERE spaces.id IN (
+      SELECT bookings.space_id
+      FROM bookings
+      GROUP BY bookings.space_id
+      ORDER BY COUNT(bookings.space_id) DESC
+      LIMIT 2
+    );"
+    sql_params = []
+    result = DatabaseConnection.exec_params(sql, sql_params)
+    spaces_array = []
+
+    result.each do |entry|
+      spaces_array << get_space(entry)
+    end
+    return spaces_array
+  end
+
   def availability_status(id)
     space = find_by_id(id).availabilty_range
     bookings = get_confirmed_bookings(id)
