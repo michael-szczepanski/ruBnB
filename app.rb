@@ -26,7 +26,13 @@ class Application < Sinatra::Base
   end
 
   get '/' do
-    redirect "/spaces"
+    if session[:user] == nil
+      return erb(:index)
+    else
+      repo = SpaceRepository.new
+      @spaces_by_user = repo.all_by_user(session[:user])
+      return erb(:userpage)
+    end
   end
 
   get '/spaces' do
@@ -80,12 +86,17 @@ class Application < Sinatra::Base
   end
 
   post '/spaces/new' do
+
+    # if session[:user] == nil
+    #   redirect '/'
+    # end
+
     repo = SpaceRepository.new
     space = Space.new
     space.name = params[:name]
     space.description = params[:description]
     space.price_per_night = params[:price_per_night]
-    space.user_id = 1
+    space.user_id = session[:user].id
 
     repo.create(space)
     redirect('/spaces')

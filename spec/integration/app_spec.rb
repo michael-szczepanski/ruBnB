@@ -19,11 +19,35 @@ describe Application do
 
 
   context 'GET /' do
-    it 'should redirect to /spaces' do
+    it 'if user is logged out show log-in page' do
       response = get('/')
 
-      expect(response.status).to eq(302)
+      expect(response.status).to eq 200
+
+      expect(response.body).to include 'Log in'
+      expect(response.body).to include 'Welcome to ruBnB'
+      expect(response.body).to include 'New to ruBnB? Sign up <a href="/signup">here!</a>'
+
+
     end
+
+    it 'if user is logged in it shows the userpage' do
+      post('/login', {
+        email: 'jack@email.com',
+        password: 'pwtest1'
+      })
+
+      response = get('/')
+      
+      expect(response.status).to eq 200
+
+      expect(response.body).to include 'Welcome, Jack!'
+      expect(response.body).to include 'Here are your current spaces:'
+      expect(response.body).to include "Jack's House"
+      expect(response.body).to include "Jack's Shed"
+
+    end
+    
   end
   
    context "GET /spaces" do
@@ -71,8 +95,8 @@ describe Application do
         password: "verysecurepassword" })
       expect(response.status).to eq 302
 
-      response = get('/spaces')
-      expect(response.body).to include "Welcome Mike!"
+      response = get('/')
+      expect(response.body).to include "Welcome, Mike!"
     end
   end
 
@@ -85,20 +109,23 @@ describe Application do
 
       expect(response.status).to eq 302
 
-      response = get('/spaces')
-      expect(response.body).to include "Welcome Jack!"
+      response = get('/')
+      expect(response.body).to include "Welcome, Jack!"
     end
   end
 
   context 'POST /spaces/new' do
     it 'creates a new space' do
+      post('/login', {
+        email: 'jack@email.com',
+        password: 'pwtest1'
+      })
 
       response = post(
         '/spaces/new',
         name: 'treehouse',
         description: 'a lovely treehouse',
-        price_per_night: 50.0,
-        user_id: 1
+        price_per_night: 50.00
       )
 
       expect(response.status).to eq 302
