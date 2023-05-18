@@ -24,16 +24,16 @@
     <%if session[:user]==nil %>
       <div>
         <a href="/">Home</a>
-        <a href="/signup">Sign Up</a>
-        <a href="/spaces">View Spaces</a>
+        <a href="/signup">Sign up</a>
+        <a href="/spaces">View spaces</a>     
       </div>
       <% else %>
         <div>
           <a href="/">Home</a>
-          <a href="/">Bookings(TBD)</a>
-          <a href="/spaces">View Spaces</a>
-          <a href="/">Log Out(TBD)</a>
-          <a href="/spaces/new">List a New Space</a>
+          <a href="/bookings">Bookings</a>
+          <a href="/spaces">View spaces</a>
+          <a href="/">Log out(TBD)</a>
+          <a href="/spaces/new">List a new space</a>
         </div>
 
         <% end %>

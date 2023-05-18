@@ -170,4 +170,82 @@ describe Application do
       expect(response.body).not_to include 'Welcome Jack!'
     end
   end
+
+  context 'GET /bookings' do
+    it 'returns a view of bookings Jack has made' do
+      post('/login', {
+        email: 'jack@email.com',
+        password: 'pwtest1'
+      })
+
+      response = get('/bookings')
+
+      expect(response.status).to eq 200
+      expect(response.body).to include "Jill's converted well" # name of space
+      expect(response.body).to include '19 May 2023' # date of booking
+      expect(response.body).to include 'Denied' # booking.request_status
+    end
+
+    it 'returns a view of booking requests on spaces Jack owns' do
+      post('/login', {
+        email: 'jack@email.com',
+        password: 'pwtest1'
+      })
+
+      response = get('/bookings')
+      
+      expect(response.status).to eq 200
+      expect(response.body).to include "Jack's House" # name of space
+      expect(response.body).to include '20 May 2023' # date of booking
+      expect(response.body).to include 'Pending' # booking.request_status
+
+      expect(response.body).to include "Jack's Shed" # name of space
+      expect(response.body).to include '26 May 2023' # date of booking
+      expect(response.body).to include 'Pending' # booking.request_status
+
+      expect(response.body).to include "Jack's Shed" # name of space
+      expect(response.body).to include '26 May 2023' # date of booking
+      expect(response.body).to include 'Pending' # booking.request_status
+    end
+  end
+
+  context 'POST /confirm' do
+    it 'changes booking request_status to confirmed' do
+      # log Jack in
+      post('/login', {
+        email: 'jack@email.com',
+        password: 'pwtest1'
+      })
+      
+      # send confirm to all three requests for Jack's spaces
+      post('/confirm', {id: 1})
+      post('/confirm', {id: 2})
+      post('/confirm', {id: 3})
+      
+      response = get('/bookings')
+
+      # check that none of them are now pending
+      expect(response.body).not_to include 'Pending'
+    end
+  end
+
+  context 'POST /deny' do
+    it 'changes booking request_status to denied' do
+       # log Jack in
+       post('/login', {
+        email: 'jack@email.com',
+        password: 'pwtest1'
+      })
+      
+      # send deny to all three requests for Jack's spaces
+      post('/deny', {id: 1})
+      post('/deny', {id: 2})
+      post('/deny', {id: 3})
+      
+      response = get('/bookings')
+
+      # check that none of them are now pending
+      expect(response.body).not_to include 'Pending'
+    end
+  end
 end
