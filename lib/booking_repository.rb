@@ -30,12 +30,23 @@ class BookingRepository
     query = "UPDATE bookings SET request_status = 'confirmed' WHERE id = $1;"
     params = [booking_id]
     DatabaseConnection.exec_params(query, params)
+
+    auto_deny_other_bookings(booking_id)
   end
 
   def deny(booking_id)
     query = "UPDATE bookings SET request_status = 'denied' WHERE id = $1;"
     params = [booking_id]
     DatabaseConnection.exec_params(query, params)
+  end
+
+  def find_by_id(booking_id)
+    sql = "SELECT id, date, request_status, user_id, space_id FROM bookings WHERE id = $1;"
+    sql_params = [booking_id]
+
+    result = DatabaseConnection.exec_params(sql, sql_params)
+
+    return extract_bookings(result).first
   end
 
   private
@@ -52,5 +63,18 @@ class BookingRepository
       bookings << booking
     end
     return bookings
+  end
+
+
+
+  def auto_deny_other_bookings(booking_id)
+    confirmed_booking = find_by_id(booking_id)
+    space_id = confirmed_booking.space_id
+    date = confirmed_booking.date.to_s
+
+    query = "UPDATE bookings SET request_status = 'denied' WHERE request_status = 'pending' AND space_id = $1 AND date = $2;"
+    params = [space_id, date]
+    DatabaseConnection.exec_params(query, params)
+
   end
 end
