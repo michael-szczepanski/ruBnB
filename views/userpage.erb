@@ -1,8 +1,8 @@
-<h1>Welcome, <%=session[:user].name%>!</h1>
+<% content_for :title do %>
+     My page | ruBnB
+<% end %>
 
-<form action="/logout" method="POST">
-    <input type="submit" value="Log out" />
-</form>
+<h1>Welcome, <%=session[:user].name%>!</h1>
 
 <h2>Here are your current spaces:</h2>
 <% @spaces_by_user.each do |space| %>

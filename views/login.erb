@@ -1,12 +1,6 @@
 <% content_for :title do %>
-     Home | ruBnB
+     Login | ruBnB
 <% end %>
-
-<h1>Welcome to ruBnB!</h1>
-
-<% if @user_not_logged_in %> 
-
-<h2>Log in</h2>
 
 <% flash.keys.each do |type| %>
     <div data-alert class="flash <%= type %> alert-box radius">
@@ -34,16 +28,3 @@
         <br>
 
         <p>New to ruBnB? Sign up <a href="/signup">here!</a></p>
-
-<% end %>
-
-        <h2>Here are the most popular spaces:</h2>
-            <% @top_spaces.each do |space| %>
-            <div>
-                <h3><a href="/spaces/<%=space.id%>">
-                <%= space.name %>
-                </a></h3>
-                About this space: <%= space.description %> <br>
-                Price per night: £<%= space.price_per_night %> <br>
-            </div>
-        <% end %>
