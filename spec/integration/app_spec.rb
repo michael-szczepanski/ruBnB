@@ -157,14 +157,25 @@ describe Application do
     end
   end
 
-  context 'POST /book-a-space' do
+  context 'POST /book' do
     it 'sends correct parameters' do
-      response = post('/book-a-space', {id: 1})
+      post('/login', {
+        email: 'jill@email.com',
+        password: 'pwtest2'
+      })
+
+      response = post('/book', {
+        date:'2023-05-16', 
+        user_id: 2, 
+        space_id: 3
+        })
+
       expect(response.status).to eq 302
 
-      response = get('/spaces/1')
-      # TODO: what expectation here?
-      # expect(response.body).to include 'Availability: false'
+      response = get('/bookings')
+      expect(response.body).to include "Jack's House"
+      expect(response.body).to include "Booking date: 16 May 2023"
+      expect(response.body).to include "Status: Pending"
     end
   end
 
