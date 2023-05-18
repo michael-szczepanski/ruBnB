@@ -68,6 +68,11 @@ class Application < Sinatra::Base
     end
   end
 
+  get '/logout' do
+    session[:user] = nil
+    redirect '/'
+  end
+  
   post '/login' do
     repo = UserRepository.new
     email = params[:email]

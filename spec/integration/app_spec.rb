@@ -168,6 +168,20 @@ describe Application do
     end
   end
 
+  context 'GET /logout' do
+    it 'logs a user out' do
+      post('/login', {
+        email: 'jack@email.com',
+        password: 'pwtest1'
+      })
+      response = get('/logout')
+      expect(response.status).to eq 302
+
+      response = get('/')
+      expect(response.body).not_to include 'Welcome Jack!'
+    end
+  end
+  
   context 'POST /logout' do
     it 'logs a user out of website' do
       post('/login', {
@@ -175,7 +189,7 @@ describe Application do
         password: 'pwtest1'
       })
       post('/logout')
-      response = get('/spaces')
+      response = get('/')
       expect(response.body).not_to include 'Welcome Jack!'
     end
   end
