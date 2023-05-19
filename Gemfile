@@ -25,3 +25,5 @@ gem "rubocop", "~> 1.51"
 gem "simplecov", "~> 0.22.0"
 
 gem "simplecov-cobertura", "~> 2.1"
+
+gem "simplecov-console", "~> 0.9.1"

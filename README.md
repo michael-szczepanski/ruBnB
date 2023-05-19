@@ -24,6 +24,7 @@ http://127.0.0.1:port
 
 # To get details on test coverage:
 rspec
+rubocop
 ```
 
 ## Built with
@@ -46,6 +47,10 @@ rspec
   * Testing tool for Ruby, created for Test Driven Development
 * Rubocop
   * Ruby code style checker and formatter based on a community-driven Ruby Style Guide
+
+## Testing coverage
+* Testing coverage has been marked at 99.84% accoring to RSpec, with lines missed within `app.rb`.
+* Currently, the line `14 DatabaseConnection.connect('rubnb')` cannot be accessed within a testing environment, therefore it is assumed to be working through indirect means of accessing the database through TablePlus an manually confirming that the main database is never accessed or manipulated
 
 ## Design documents and changes
 * Original table design
@@ -76,3 +81,4 @@ rspec
 * [Jack Skates]()
 * [Michael Szczepanski](mailto:m.szczepanski90@gmail.com)
 * [Link to project repository](URL "https://github.com/michael-szczepanski/makersbnb-ruby-seed")
+* Project created as part of the [Makers Academy](URL "https://makers.tech/") software development course
