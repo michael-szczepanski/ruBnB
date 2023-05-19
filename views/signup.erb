@@ -1,41 +1,39 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Sign Up | ruBnB</title>
-  </head>
-  <body>
-    <% flash.keys.each do |type| %>
-      <div data-alert class="flash <%= type %> alert-box radius">
-        <%= flash[type] %>
-      </div>
-    <% end %>
-    <form method="POST" action="/signup">
-      <div>
-      <label for="name">Name</label>
-      <input type="text" name="name" placeholder="eg: Jack Skates"> 
-      </div>
+<% content_for :title do %>
+  Sign up | ruBnB
+<% end %>
 
-      <div>
-      <label for="username">Username</label>
-      <input type="text" name="username" placeholder="eg BigJack2000"
-        pattern="^[A-Za-z0-9]+$" oninvalid="alert('Username has to contain alphanumeric characters only')">
-      </div>
+<h1>Sign up</h1>
 
-      <div>
-      <label for="email">Email</label>
-      <input type="text" name="email" placeholder="eg: jack@gmail.com"
-        pattern="^([a-zA-Z0-9_\.-]+)@([\da-zA-Z\.-]+)\.([a-zA-Z\.]+)$" oninvalid="alert('Email format invalid')">
-      </div>
+<% flash.keys.each do |type| %>
+  <div data-alert class="flash <%= type %> alert-box radius">
+    <%= flash[type] %>
+  </div>
+<% end %>
+<form method="POST" action="/signup">
+  <div>
+  <label for="name">Name</label>
+  <input type="text" name="name" placeholder="eg: Jack Skates"> 
+  </div>
 
-      <div>
-      <label for="password">Password</label>
-      <input type="password" name="password" placeholder="eg supersecret12321"
-        minlength=6 oninvalid="alert('Password has to be at least 6 characters long')">
-      </div>
+  <div>
+  <label for="username">Username</label>
+  <input type="text" name="username" placeholder="eg BigJack2000"
+    pattern="^[A-Za-z0-9]+$" oninvalid="alert('Username has to contain alphanumeric characters only')">
+  </div>
 
-      <div>
-      <button type="submit">Sign Up Now!</button>
-      </div>
-      </form>
-  </body>
-</html>
+  <div>
+  <label for="email">Email</label>
+  <input type="text" name="email" placeholder="eg: jack@gmail.com"
+    pattern="^([a-zA-Z0-9_\.-]+)@([\da-zA-Z\.-]+)\.([a-zA-Z\.]+)$" oninvalid="alert('Email format invalid')">
+  </div>
+
+  <div>
+  <label for="password">Password</label>
+  <input type="password" name="password" placeholder="eg supersecret12321"
+    minlength=6 oninvalid="alert('Password has to be at least 6 characters long')">
+  </div>
+
+  <div>
+  <button type="submit">Sign Up Now!</button>
+  </div>
+  </form>
