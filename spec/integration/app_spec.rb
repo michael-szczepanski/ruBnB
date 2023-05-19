@@ -198,6 +198,15 @@ describe Application do
       response = get('/my_spaces')
       expect(response.body).to include "Welcome, Jack!"
     end
+
+    it 'Should not log a user out upon incorrect credentials' do
+      response = post('/login', {
+        email: 'mike@email.com',
+        password: 'pwtest1'
+      })
+
+      expect(response.status).to eq 302
+    end
   end
 
   context 'GET /login' do
