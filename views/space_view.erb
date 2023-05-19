@@ -3,10 +3,14 @@
 <h1><%= @space.name %></h1>
 
 <p><%= @space.description %></p>
+<br>
 
 <div>
   <% @dates.each do |date| %>
-  <p>Date: <%= date[:date] %> Status: <%= date[:status] %>
+  <div class="availability-container <%= 'unavailable' if date[:status] == 'unavailable' %>">
+  <p>Date: <%= date[:date] %></p>
+  <div class="container availability">
+  <p>Status: <%= date[:status] %> </p>
   <%if date[:status] == 'available' %>
   <form method="POST" action="/book">
   <input type="hidden" name="user_id" value="<%= @user_id%>"/>
@@ -15,7 +19,8 @@
   <input type="submit" value="book" />
 </form>
    <% end %>
-  </p>
+  </div>
+  </div>
   <% end %>
   
 </div>

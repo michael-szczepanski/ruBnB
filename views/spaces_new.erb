@@ -15,17 +15,17 @@
 
     <div>
       <label for="price_per_night">Price per night: £</label>
-      <input id="price_per_night" type="number" placeholder="Enter the price per night." name="price_per_night" step="0.01" required />
+      <input id="price_per_night" type="number" placeholder="Enter the price per night." name="price_per_night" step="0.01" min="0" required />
     </div>
 
     <div>
       <label for="available_from">Available from:</label>
-      <input type="date" name="available_from" id="available_from" required />
+      <input type="date" name="available_from" id="available_from" min=<%=@current_date%> required />
     </div>
 
     <div>
       <label for="available_to">Available to:</label>
-      <input type="date" name="available_to" id="available_to" required />
+      <input type="date" name="available_to" id="available_to" min=<%=@current_date%> required />
     </div>
 
     <% flash.keys.each do |type| %>
