@@ -101,7 +101,7 @@ class Application < Sinatra::Base
 
   get '/spaces/new' do
     redirect '/login' if session[:user] == nil
-
+    @current_date = Date.today.strftime('%Y-%m-%d')
     return erb(:spaces_new)
   end
 
