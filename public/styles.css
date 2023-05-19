@@ -16,6 +16,11 @@ input {
   font: inherit;
 }
 
+a {
+  text-decoration: none;
+  color: darkred;
+}
+
 header {
   display: flex;
   align-items: center;
@@ -26,7 +31,7 @@ header span {
   font-size: 1.5rem;
 }
 
-header a + a {
+header a+a {
   margin-left: 0.5rem;
 }
 
@@ -46,4 +51,25 @@ footer p {
 
 .alert-box {
   color: red;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+}
+
+.availability p {
+  margin: 0 0.5rem 0 0;
+}
+
+.availability-container {
+  border-bottom: 1px solid black;
+  padding-bottom: 1rem;
+  max-width: 400px;
+
+}
+
+.unavailable {
+  color: grey;
+  text-decoration: line-through;
 }
