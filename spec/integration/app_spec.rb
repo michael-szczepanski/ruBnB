@@ -85,6 +85,11 @@ describe Application do
       expect(response.body).to include('Create your space!')
       expect(response.body).to include('action="/spaces/new" method="POST"')
     end
+
+    it 'redirects user back to home page if they are not logged in' do
+      response = get('/spaces/new')
+      expect(response.status).to eq 302
+    end
   end
 
   context 'POST /spaces/new' do
@@ -131,6 +136,19 @@ describe Application do
       response = get('/spaces')
       expect(response.body).to_not include "treehouse 2"
     end
+
+    it 'redirects user back to home page if no user is logged in' do
+      response = post(
+        '/spaces/new',
+        name: 'treehouse 2',
+        description: 'a lovely treehouse',
+        price_per_night: 50.00,
+        available_from: '2023-05-25',
+        available_to: '2023-05-23'
+      )
+
+      expect(response.status).to eq 302
+    end
   end
 
   context 'GET /signup' do
@@ -155,6 +173,16 @@ describe Application do
 
       response = get('/my_spaces')
       expect(response.body).to include "Welcome, Mike!"
+    end
+
+    it "Should redirect the user back to signup page if duplicate information is given" do
+      response = post('/signup', {
+        name: "Jack",
+        username: "skates",
+        email: "jack@email.com",
+        password: "password"
+      })
+      expect(response.status).to eq 302
     end
   end
 
