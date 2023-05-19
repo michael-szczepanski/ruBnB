@@ -40,6 +40,8 @@ class Application < Sinatra::Base
   end
 
   get '/my_spaces' do
+    redirect '/login' if session[:user] == nil
+    
     repo = SpaceRepository.new
     @spaces_by_user = repo.all_by_user(session[:user].id)
     return erb(:userpage)
@@ -98,17 +100,13 @@ class Application < Sinatra::Base
   end
 
   get '/spaces/new' do
-    if session[:user] == nil
-      redirect '/'
-    end
+    redirect '/login' if session[:user] == nil
 
     return erb(:spaces_new)
   end
 
   post '/spaces/new' do
-    if session[:user] == nil
-      redirect '/'
-    end
+    redirect '/login' if session[:user] == nil
     
     repo = SpaceRepository.new
     space = Space.new
@@ -142,15 +140,17 @@ class Application < Sinatra::Base
   end
 
   post '/book' do
-    redirect '/' if session[:user] == nil
+    redirect '/login' if session[:user] == nil
+
     repo = BookingRepository.new
     repo.create(params[:date], params[:user_id], params[:space_id])
 
     redirect "/bookings"
-
   end
 
   get '/bookings' do
+    redirect '/login' if session[:user] == nil
+
     booking_repo = BookingRepository.new
     @space_repo = SpaceRepository.new
 
@@ -163,12 +163,14 @@ class Application < Sinatra::Base
   post '/confirm' do
     booking_repo = BookingRepository.new
     booking_repo.confirm(params[:id]) 
+
     redirect '/bookings'
   end
 
   post '/deny' do
     booking_repo = BookingRepository.new
     booking_repo.deny(params[:id]) 
+    
     redirect '/bookings'
   end
 end
