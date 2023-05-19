@@ -1,5 +1,7 @@
-require "spec_helper"
-require "rack/test"
+# frozen_string_literal: true
+
+require 'spec_helper'
+require 'rack/test'
 require_relative '../../app'
 require 'json'
 
@@ -16,7 +18,6 @@ describe Application do
   # accross multiple RSpec files (for example, have
   # one test suite for each set of related features),
   # you can duplicate this test file to create a new one.
-
 
   context 'GET /' do
     it 'if user is logged out show log-in page' do
@@ -38,29 +39,29 @@ describe Application do
       expect(response.body).to include "Jill's converted well"
     end
   end
-  
-   context "GET /spaces" do
-    it "displays list of all spaces" do
-      response = get("/spaces")
+
+  context 'GET /spaces' do
+    it 'displays list of all spaces' do
+      response = get('/spaces')
 
       expect(response.status).to eq(200)
-      expect(response.body).to include("Spaces | ruBnB")
+      expect(response.body).to include('Spaces | ruBnB')
       expect(response.body).to include("Jack's House")
-      expect(response.body).to include("This is my lovely house")
+      expect(response.body).to include('This is my lovely house')
       expect(response.body).to include("Jack's Shed")
-      expect(response.body).to include("This is my less-lovely shed")
+      expect(response.body).to include('This is my less-lovely shed')
       expect(response.body).to include("Jill's converted well")
-      expect(response.body).to include("Feel like a frog looking at the sky")
+      expect(response.body).to include('Feel like a frog looking at the sky')
     end
   end
 
   context 'GET /my_spaces' do
     it 'displays the user page' do
       post('/login', {
-        email: 'jack@email.com',
-        password: 'pwtest1'
-      })
-      
+             email: 'jack@email.com',
+             password: 'pwtest1'
+           })
+
       response = get('/my_spaces')
 
       expect(response.status).to eq 200
@@ -75,10 +76,10 @@ describe Application do
   context 'GET /spaces/new' do
     it 'should return status 200 and form to create new space' do
       post('/login', {
-        email: 'jack@email.com',
-        password: 'pwtest1'
-      })
-      
+             email: 'jack@email.com',
+             password: 'pwtest1'
+           })
+
       response = get('/spaces/new')
 
       expect(response.status).to eq 200
@@ -95,9 +96,9 @@ describe Application do
   context 'POST /spaces/new' do
     it 'creates a new space' do
       post('/login', {
-        email: 'jack@email.com',
-        password: 'pwtest1'
-      })
+             email: 'jack@email.com',
+             password: 'pwtest1'
+           })
 
       response = post(
         '/spaces/new',
@@ -109,18 +110,18 @@ describe Application do
       )
 
       expect(response.status).to eq 302
-      
+
       response = get('/spaces')
       expect(response.body).to include('treehouse')
       expect(response.body).to include('a lovely treehouse')
-      expect(response.body).to include ('£50.00')
+      expect(response.body).to include('£50.00')
     end
 
     it 'does not allow available_to to be earlier than available_from' do
       post('/login', {
-        email: 'jack@email.com',
-        password: 'pwtest1'
-      })
+             email: 'jack@email.com',
+             password: 'pwtest1'
+           })
 
       response = post(
         '/spaces/new',
@@ -132,9 +133,9 @@ describe Application do
       )
 
       expect(response.status).to eq 302
-      
+
       response = get('/spaces')
-      expect(response.body).to_not include "treehouse 2"
+      expect(response.body).to_not include 'treehouse 2'
     end
 
     it 'redirects user back to home page if no user is logged in' do
@@ -163,25 +164,26 @@ describe Application do
   end
 
   context 'POST /signup' do
-    it "Should return status 200 and add a new user to the database" do
-      response = post('/signup', { 
-        name: "Mike", 
-        username: "mike",
-        email: "mike@mike.com",
-        password: "verysecurepassword" })
+    it 'Should return status 200 and add a new user to the database' do
+      response = post('/signup', {
+                        name: 'Mike',
+                        username: 'mike',
+                        email: 'mike@mike.com',
+                        password: 'verysecurepassword'
+                      })
       expect(response.status).to eq 302
 
       response = get('/my_spaces')
-      expect(response.body).to include "Welcome, Mike!"
+      expect(response.body).to include 'Welcome, Mike!'
     end
 
-    it "Should redirect the user back to signup page if duplicate information is given" do
+    it 'Should redirect the user back to signup page if duplicate information is given' do
       response = post('/signup', {
-        name: "Jack",
-        username: "skates",
-        email: "jack@email.com",
-        password: "password"
-      })
+                        name: 'Jack',
+                        username: 'skates',
+                        email: 'jack@email.com',
+                        password: 'password'
+                      })
       expect(response.status).to eq 302
     end
   end
@@ -189,21 +191,21 @@ describe Application do
   context 'POST /login' do
     it 'Should allow login with valid credentials' do
       response = post('/login', {
-        email: 'jack@email.com',
-        password: 'pwtest1'
-      })
+                        email: 'jack@email.com',
+                        password: 'pwtest1'
+                      })
 
       expect(response.status).to eq 302
 
       response = get('/my_spaces')
-      expect(response.body).to include "Welcome, Jack!"
+      expect(response.body).to include 'Welcome, Jack!'
     end
 
     it 'Should not log a user out upon incorrect credentials' do
       response = post('/login', {
-        email: 'mike@email.com',
-        password: 'pwtest1'
-      })
+                        email: 'mike@email.com',
+                        password: 'pwtest1'
+                      })
 
       expect(response.status).to eq 302
     end
@@ -221,27 +223,27 @@ describe Application do
   context 'POST /spaces/new' do
     it 'creates a new space' do
       post('/login', {
-        email: 'jack@email.com',
-        password: 'pwtest1'
-      })
+             email: 'jack@email.com',
+             password: 'pwtest1'
+           })
 
       response = post(
         '/spaces/new',
         name: 'treehouse',
         description: 'a lovely treehouse',
         price_per_night: 50.00,
-        available_from: "2023-05-19",
-        available_to: "2023-05-20"
+        available_from: '2023-05-19',
+        available_to: '2023-05-20'
       )
 
       expect(response.status).to eq 302
-      
+
       response = get('/my_spaces')
       expect(response.body).to include('treehouse')
       expect(response.body).to include('a lovely treehouse')
     end
   end
-  
+
   context 'GET /spaces/:id' do
     it 'retrieves the individual space page' do
       response = get('/spaces/1')
@@ -257,31 +259,31 @@ describe Application do
   context 'POST /book' do
     it 'sends correct parameters' do
       post('/login', {
-        email: 'jill@email.com',
-        password: 'pwtest2'
-      })
+             email: 'jill@email.com',
+             password: 'pwtest2'
+           })
 
       response = post('/book', {
-        date:'2023-05-16', 
-        user_id: 2, 
-        space_id: 3
-        })
+                        date: '2023-05-16',
+                        user_id: 2,
+                        space_id: 3
+                      })
 
       expect(response.status).to eq 302
 
       response = get('/bookings')
       expect(response.body).to include "Jack's House"
-      expect(response.body).to include "Booking date: 16 May 2023"
-      expect(response.body).to include "Status: Pending"
+      expect(response.body).to include 'Booking date: 16 May 2023'
+      expect(response.body).to include 'Status: Pending'
     end
   end
 
   context 'GET /logout' do
     it 'logs a user out' do
       post('/login', {
-        email: 'jack@email.com',
-        password: 'pwtest1'
-      })
+             email: 'jack@email.com',
+             password: 'pwtest1'
+           })
       response = get('/logout')
       expect(response.status).to eq 302
 
@@ -289,13 +291,13 @@ describe Application do
       expect(response.body).not_to include 'Welcome Jack!'
     end
   end
-  
+
   context 'POST /logout' do
     it 'logs a user out of website' do
       post('/login', {
-        email: 'jack@email.com',
-        password: 'pwtest1'
-      })
+             email: 'jack@email.com',
+             password: 'pwtest1'
+           })
       post('/logout')
       response = get('/')
       expect(response.body).not_to include 'Welcome Jack!'
@@ -305,9 +307,9 @@ describe Application do
   context 'GET /bookings' do
     it 'returns a view of bookings Jack has made' do
       post('/login', {
-        email: 'jack@email.com',
-        password: 'pwtest1'
-      })
+             email: 'jack@email.com',
+             password: 'pwtest1'
+           })
 
       response = get('/bookings')
 
@@ -319,12 +321,12 @@ describe Application do
 
     it 'returns a view of booking requests on spaces Jack owns' do
       post('/login', {
-        email: 'jack@email.com',
-        password: 'pwtest1'
-      })
+             email: 'jack@email.com',
+             password: 'pwtest1'
+           })
 
       response = get('/bookings')
-      
+
       expect(response.status).to eq 200
       expect(response.body).to include "Jack's House" # name of space
       expect(response.body).to include '20 May 2023' # date of booking
@@ -344,15 +346,15 @@ describe Application do
     it 'changes booking request_status to confirmed' do
       # log Jack in
       post('/login', {
-        email: 'jack@email.com',
-        password: 'pwtest1'
-      })
-      
+             email: 'jack@email.com',
+             password: 'pwtest1'
+           })
+
       # send confirm to all three requests for Jack's spaces
-      post('/confirm', {id: 1})
-      post('/confirm', {id: 2})
-      post('/confirm', {id: 3})
-      
+      post('/confirm', { id: 1 })
+      post('/confirm', { id: 2 })
+      post('/confirm', { id: 3 })
+
       response = get('/bookings')
 
       # check that none of them are now pending
@@ -362,17 +364,17 @@ describe Application do
 
   context 'POST /deny' do
     it 'changes booking request_status to denied' do
-       # log Jack in
-       post('/login', {
-        email: 'jack@email.com',
-        password: 'pwtest1'
-      })
-      
+      # log Jack in
+      post('/login', {
+             email: 'jack@email.com',
+             password: 'pwtest1'
+           })
+
       # send deny to all three requests for Jack's spaces
-      post('/deny', {id: 1})
-      post('/deny', {id: 2})
-      post('/deny', {id: 3})
-      
+      post('/deny', { id: 1 })
+      post('/deny', { id: 2 })
+      post('/deny', { id: 3 })
+
       response = get('/bookings')
 
       # check that none of them are now pending

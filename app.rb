@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'sinatra/base'
 require 'sinatra/reloader'
 require 'sinatra/flash'
@@ -10,9 +12,7 @@ require_relative 'lib/user_repository'
 require_relative 'lib/user'
 require_relative 'lib/booking_repository'
 
-if ENV['ENV'] != 'test'
-  DatabaseConnection.connect('rubnb')
-end
+DatabaseConnection.connect('rubnb') if ENV['ENV'] != 'test'
 
 class Application < Sinatra::Base
   enable :sessions
@@ -28,7 +28,7 @@ class Application < Sinatra::Base
   get '/' do
     repo = SpaceRepository.new
     @top_spaces = repo.find_top_spaces
-    @user_not_logged_in = session[:user] == nil
+    @user_not_logged_in = session[:user].nil?
     return erb(:index)
   end
 
@@ -40,8 +40,8 @@ class Application < Sinatra::Base
   end
 
   get '/my_spaces' do
-    redirect '/login' if session[:user] == nil
-    
+    redirect '/login' if session[:user].nil?
+
     repo = SpaceRepository.new
     @spaces_by_user = repo.all_by_user(session[:user].id)
     return erb(:userpage)
@@ -66,8 +66,8 @@ class Application < Sinatra::Base
       session[:user] = user
       redirect '/my_spaces'
     else
-      flash[:username] = "Username already in use" unless username_valid
-      flash[:email] = "Email already in use" unless email_valid
+      flash[:username] = 'Username already in use' unless username_valid
+      flash[:email] = 'Email already in use' unless email_valid
       redirect back
     end
   end
@@ -75,14 +75,14 @@ class Application < Sinatra::Base
   get '/login' do
     erb(:login)
   end
-  
+
   post '/login' do
     repo = UserRepository.new
     email = params[:email]
     password = params[:password]
     session[:user] = repo.log_in(email, password)
-    if session[:user] == nil
-      flash[:error] = "email/password incorrect"
+    if session[:user].nil?
+      flash[:error] = 'email/password incorrect'
       redirect back
     else
       redirect '/my_spaces'
@@ -100,32 +100,32 @@ class Application < Sinatra::Base
   end
 
   get '/spaces/new' do
-    redirect '/login' if session[:user] == nil
+    redirect '/login' if session[:user].nil?
     @current_date = Date.today.strftime('%Y-%m-%d')
     return erb(:spaces_new)
   end
 
   post '/spaces/new' do
-    redirect '/login' if session[:user] == nil
-    
+    redirect '/login' if session[:user].nil?
+
     repo = SpaceRepository.new
     space = Space.new
 
     dates_valid = (Date.parse(params[:available_to]) >= Date.parse(params[:available_from]))
-    
+
     if dates_valid
 
-    space.name = params[:name]
-    space.description = params[:description]
-    space.price_per_night = params[:price_per_night]
-    space.available_from = params[:available_from]
-    space.available_to = params[:available_to]
-    space.user_id = session[:user].id
+      space.name = params[:name]
+      space.description = params[:description]
+      space.price_per_night = params[:price_per_night]
+      space.available_from = params[:available_from]
+      space.available_to = params[:available_to]
+      space.user_id = session[:user].id
 
-    repo.create(space)
-    redirect('/my_spaces')
+      repo.create(space)
+      redirect('/my_spaces')
     else
-      flash[:dates_valid] = "Your space should be available for at least one night."
+      flash[:dates_valid] = 'Your space should be available for at least one night.'
       redirect back
     end
   end
@@ -134,22 +134,22 @@ class Application < Sinatra::Base
     repo = SpaceRepository.new
     @space = repo.find_by_id(params[:id])
     @dates = repo.availability_status(params[:id])
-    @user_id = session[:user].id if session[:user] != nil
+    @user_id = session[:user].id unless session[:user].nil?
 
     return erb(:space_view)
   end
 
   post '/book' do
-    redirect '/login' if session[:user] == nil
+    redirect '/login' if session[:user].nil?
 
     repo = BookingRepository.new
     repo.create(params[:date], params[:user_id], params[:space_id])
 
-    redirect "/bookings"
+    redirect '/bookings'
   end
 
   get '/bookings' do
-    redirect '/login' if session[:user] == nil
+    redirect '/login' if session[:user].nil?
 
     booking_repo = BookingRepository.new
     @space_repo = SpaceRepository.new
@@ -162,15 +162,15 @@ class Application < Sinatra::Base
 
   post '/confirm' do
     booking_repo = BookingRepository.new
-    booking_repo.confirm(params[:id]) 
+    booking_repo.confirm(params[:id])
 
     redirect '/bookings'
   end
 
   post '/deny' do
     booking_repo = BookingRepository.new
-    booking_repo.deny(params[:id]) 
-    
+    booking_repo.deny(params[:id])
+
     redirect '/bookings'
   end
 end

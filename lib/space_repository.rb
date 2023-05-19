@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative 'space'
 require_relative 'booking'
 require_relative 'database_connection'
@@ -5,9 +7,7 @@ require 'time'
 # require 'date'
 # require 'datetime'
 
-
 class SpaceRepository
-
   def all
     sql = 'SELECT id, name, description, price_per_night, available_from, available_to, user_id FROM spaces;'
     result = DatabaseConnection.exec_params(sql, [])
@@ -15,7 +15,7 @@ class SpaceRepository
     result.each do |row|
       spaces_array << get_space(row)
     end
-    return spaces_array
+    spaces_array
   end
 
   def all_by_user(id)
@@ -26,13 +26,14 @@ class SpaceRepository
     result.each do |row|
       spaces_array << get_space(row)
     end
-    return spaces_array
+    spaces_array
   end
 
   def create(space)
     sql = 'INSERT INTO spaces (name, description, price_per_night, available_from, available_to, user_id) VALUES($1, $2, $3, $4, $5, $6) RETURNING id;'
 
-    params = [space.name, space.description, space.price_per_night, space.available_from, space.available_to, space.user_id]
+    params = [space.name, space.description, space.price_per_night, space.available_from, space.available_to,
+              space.user_id]
 
     DatabaseConnection.exec_params(sql, params)
   end
@@ -50,11 +51,11 @@ class SpaceRepository
     FROM spaces WHERE id = $1'
     sql_params = [id]
 
-    entry = DatabaseConnection.exec_params(sql,sql_params)[0]
+    entry = DatabaseConnection.exec_params(sql, sql_params)[0]
     date_range = date_availabilty_range(entry['available_from'], entry['available_to'])
     result = get_space(entry)
     result.availabilty_range = date_range
-    return result
+    result
   end
 
   def find_top_spaces
@@ -72,7 +73,7 @@ class SpaceRepository
     result.each do |entry|
       spaces_array << get_space(entry)
     end
-    return spaces_array
+    spaces_array
   end
 
   def availability_status(id)
@@ -81,22 +82,21 @@ class SpaceRepository
 
     space.map do |date|
       if bookings.include? date
-        date = { date: date, status: "unavailable"}
+        { date: date, status: 'unavailable' }
       else
-        date = { date: date, status: "available"}
+        { date: date, status: 'available' }
       end
     end
   end
-  
+
   private
 
   def date_availabilty_range(available_from, available_to)
     new_from = Date.parse(available_from)
     new_to = Date.parse(available_to)
-    range = (new_from..new_to).map do |date|
+    (new_from..new_to).map do |date|
       date.strftime('%Y-%m-%d')
     end
-    return range
   end
 
   def get_confirmed_bookings(id)
@@ -113,7 +113,7 @@ class SpaceRepository
       bookings << confirmed_booking.date
     end
 
-    return bookings
+    bookings
   end
 
   def get_space(entry)
@@ -121,10 +121,10 @@ class SpaceRepository
     space.id = entry['id'].to_i
     space.name = entry['name']
     space.description = entry['description']
-    space.price_per_night = sprintf("%.2f", entry['price_per_night'])
+    space.price_per_night = format('%.2f', entry['price_per_night'])
     space.available_from = entry['available_from']
     space.available_to = entry['available_to']
     space.user_id = entry['user_id'].to_i
-    return space
+    space
   end
 end

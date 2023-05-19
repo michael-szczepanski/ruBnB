@@ -1,21 +1,23 @@
+# frozen_string_literal: true
+
 require_relative 'booking'
 require_relative 'database_connection'
 
 class BookingRepository
   def find_by_user(user_id)
-    query = "SELECT id, date, request_status, user_id, space_id FROM bookings WHERE user_id = $1;"
+    query = 'SELECT id, date, request_status, user_id, space_id FROM bookings WHERE user_id = $1;'
     params = [user_id]
     entries = DatabaseConnection.exec_params(query, params)
-    return extract_bookings(entries)
+    extract_bookings(entries)
   end
 
   def find_for_user(user_id)
-    query = 'SELECT bookings.id, bookings.date, bookings.request_status, bookings.user_id, bookings.space_id 
-              FROM bookings WHERE bookings.space_id 
+    query = 'SELECT bookings.id, bookings.date, bookings.request_status, bookings.user_id, bookings.space_id
+              FROM bookings WHERE bookings.space_id
               IN (SELECT spaces.id FROM spaces WHERE spaces.user_id = $1);'
     params = [user_id]
     result = DatabaseConnection.exec_params(query, params)
-    return extract_bookings(result)
+    extract_bookings(result)
   end
 
   def create(date, user_id, space_id)
@@ -23,7 +25,7 @@ class BookingRepository
     params = [date, user_id, space_id]
 
     DatabaseConnection.exec_params(query, params)
-    return nil
+    nil
   end
 
   def confirm(booking_id)
@@ -41,19 +43,19 @@ class BookingRepository
   end
 
   def find_by_id(booking_id)
-    sql = "SELECT id, date, request_status, user_id, space_id FROM bookings WHERE id = $1;"
+    sql = 'SELECT id, date, request_status, user_id, space_id FROM bookings WHERE id = $1;'
     sql_params = [booking_id]
 
     result = DatabaseConnection.exec_params(sql, sql_params)
 
-    return extract_bookings(result).first
+    extract_bookings(result).first
   end
 
   private
 
   def extract_bookings(entries)
     bookings = []
-    for entry in entries do
+    entries.each do |entry|
       booking = Booking.new
       booking.id = entry['id'].to_i
       booking.date = Date.parse(entry['date'])
@@ -62,10 +64,8 @@ class BookingRepository
       booking.space_id = entry['space_id'].to_i
       bookings << booking
     end
-    return bookings
+    bookings
   end
-
-
 
   def auto_deny_other_bookings(booking_id)
     confirmed_booking = find_by_id(booking_id)
@@ -75,6 +75,5 @@ class BookingRepository
     query = "UPDATE bookings SET request_status = 'denied' WHERE request_status = 'pending' AND space_id = $1 AND date = $2;"
     params = [space_id, date]
     DatabaseConnection.exec_params(query, params)
-
   end
 end
