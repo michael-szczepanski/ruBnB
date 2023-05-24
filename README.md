@@ -79,6 +79,6 @@ rubocop
 * [Will Davies]()
 * [Caroline Evans]()
 * [Jack Skates]()
-* [Michael Szczepanski](mailto:m.szczepanski90@gmail.com)
-* [Link to project repository](URL "https://github.com/michael-szczepanski/makersbnb-ruby-seed")
+* [Michael Szczepanski](URL "https://github.com/michael-szczepanski/ruBnB")
+* [Link to project repository](URL "https://github.com/michael-szczepanski/ruBnB")
 * Project created as part of the [Makers Academy](URL "https://makers.tech/") software development course
